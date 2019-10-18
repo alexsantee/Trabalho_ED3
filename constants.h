@@ -5,6 +5,7 @@ const char SEPARADOR_CAMPO = '|';
 const char SEPARADOR_REGISTRO = '#';
 const char LIXO = '#';
 const char VIRGULA = ',';   //separador de campos no .csv
+#define TAM_VAR 77     //espaco reservado para campos de tamanho variavel
 
 //REGISTROS
 
@@ -15,9 +16,9 @@ struct registro{
     char estadoDestino[3];
     unsigned int distancia;
     //Tamanho variavel (registro hibrido)
-    char cidadeOrigem[77];  //76 reservado para tamanho fixo + \0
-    char cidadeDestino[77];
-    char tempoViagem[77];
+    char cidadeOrigem[TAM_VAR];
+    char cidadeDestino[TAM_VAR];
+    char tempoViagem[TAM_VAR];
     //Auxiliar (nao eh gravado em disco)
     //unsigned int RRN; //TALVEZ SEJA NECESSARIO
 };
