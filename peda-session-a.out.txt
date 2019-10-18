@@ -1,2 +1,0 @@
-break /home/alex/src/Trabalho_ED3/indice.c:130
-
