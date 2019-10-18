@@ -4,7 +4,7 @@
 const char SEPARADOR_CAMPO = '|';
 const char SEPARADOR_REGISTRO = '#';
 const char LIXO = '#';
-const char VIRGULA = ',';
+const char VIRGULA = ',';   //separador de campos no .csv
 
 //REGISTROS
 
