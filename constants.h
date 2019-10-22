@@ -1,10 +1,10 @@
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
-const char SEPARADOR_CAMPO = '|';
-const char SEPARADOR_REGISTRO = '#';
-const char LIXO = '#';
-const char VIRGULA = ',';   //separador de campos no .csv
+static const char SEPARADOR_CAMPO = '|';
+static const char SEPARADOR_REGISTRO = '#';
+static const char LIXO = '#';
+static const char VIRGULA = ',';   //separador de campos no .csv
 #define TAM_VAR 77     //espaco reservado para campos de tamanho variavel
 
 //REGISTROS
@@ -23,7 +23,7 @@ struct registro{
     //unsigned int RRN; //TALVEZ SEJA NECESSARIO
 };
 //Tamanho no arquivo
-const unsigned int TAMANHO_REGISTRO = 85;
+static const unsigned int TAMANHO_REGISTRO = 85;
 //Define as posicoes de cada campo dos registros no arquivo
 enum campo {
     //Acesso direto
@@ -46,7 +46,7 @@ struct cabecalho{
     char dataUltimaCompactacao[11]; //10 chars + \0
 };
 //Tamanho no arquivo
-const unsigned int TAMANHO_CABECALHO = 19;
+static const unsigned int TAMANHO_CABECALHO = 19;
 //Define as posicoes de cada campo do cabecalho no arquivo
 enum campoH {
     STATUS = 0,             // 1 byte
@@ -54,5 +54,7 @@ enum campoH {
     NUMERO_ARESTAS = 5,     // 4 bytes
     ULTIMA_COMPILACAO = 9   // 10 bytes
 };
+
+void leregistro(FILE *, struct registro *);
 
 #endif
