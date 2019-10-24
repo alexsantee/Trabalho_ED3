@@ -11,7 +11,7 @@ static const char VIRGULA = ',';   //separador de campos no .csv
 
 //REGISTROS
 
-//Struct para guardar registro hobrido em RAM
+//Struct para guardar registro hibrido em RAM
 struct registro{
     //Tamanho fixo
     char estadoOrigem[3];  //2 chars + \0
@@ -57,6 +57,6 @@ enum campoH {
     ULTIMA_COMPILACAO = 9   // 10 bytes
 };
 
-void leregistro(FILE *, struct registro *);
+void leregistro(char *, struct registro *);
 
 #endif
