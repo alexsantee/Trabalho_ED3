@@ -5,7 +5,6 @@ static const char SEPARADOR_CAMPO = '|';
 static const char SEPARADOR_REGISTRO = '#';
 static const char LIXO = '#';
 static const char * const LIXO_STR = "#";
-static const char VIRGULA = ',';   //separador de campos no .csv
 #define TAM_VAR 77     //espaco reservado para campos de tamanho variavel
 #define TAM_VAR_SCANF "%77s#"   //TAM_VAR + LIXO
 
