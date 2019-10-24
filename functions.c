@@ -28,7 +28,7 @@ void leregistro(FILE * fp, struct registro * reg)
     fscanf(fp,"%c", &lixo);
 }
 
-int escreve_registro(FILE * fp, struct registro * reg)
+void escreve_registro(FILE * fp, struct registro * reg)
 {
     int i, j = 0;
     int ini, fim;
@@ -36,40 +36,40 @@ int escreve_registro(FILE * fp, struct registro * reg)
     ini = ftell(fp);
 
     for(i = 0; i < sizeof(reg->estadoOrigem); i++)
-        fwrite(reg->estadoOrigem[i], sizeof(char), 1, fp);
+        fwrite(&reg->estadoOrigem[i], sizeof(char), 1, fp);
     
     for(i = 0; i < sizeof(reg->estadoDestino); i++)
-        fwrite(reg->estadoDestino[i], sizeof(char), 1, fp);
+        fwrite(&reg->estadoDestino[i], sizeof(char), 1, fp);
     
-    fwrite(reg->distancia, sizeof(int), 1, fp);
+    fwrite(&reg->distancia, sizeof(int), 1, fp);
 
     do
-    {   fwrite(reg->cidadeOrigem[j], sizeof(char), 1, fp);
+    {   fwrite(&reg->cidadeOrigem[j], sizeof(char), 1, fp);
     } while (reg->cidadeOrigem[j] != '\0' && ++j);
 
-    fwrite(SEPARADOR_CAMPO, sizeof(char), 1, fp);
+    fwrite(&SEPARADOR_CAMPO, sizeof(char), 1, fp);
 
     j=0;
 
     do
-    {   fwrite(reg->cidadeDestino[j], sizeof(char), 1, fp);
+    {   fwrite(&reg->cidadeDestino[j], sizeof(char), 1, fp);
     }while (reg->cidadeDestino[j] != '\0' && ++j);
 
-    fwrite(SEPARADOR_CAMPO, sizeof(char), 1, fp);
+    fwrite(&SEPARADOR_CAMPO, sizeof(char), 1, fp);
 
     j=0;
 
     do
-    {   fwrite(reg->tempoViagem, sizeof(char), 1, fp);
+    {   fwrite(&reg->tempoViagem, sizeof(char), 1, fp);
     }while (reg->tempoViagem[j] != '\0' && ++j);
 
-    fwrite(SEPARADOR_CAMPO, sizeof(char), 1, fp);
-    fwrite(SEPARADOR_REGISTRO, sizeof(char), 1, fp);
+    fwrite(&SEPARADOR_CAMPO, sizeof(char), 1, fp);
+    fwrite(&SEPARADOR_REGISTRO, sizeof(char), 1, fp);
     
     fim = ftell(fp);
     
     while((fim - ini) < TAMANHO_REGISTRO)
     {
-        fwrite(LIXO, sizeof(char), 1, fp);
+        fwrite(&LIXO, sizeof(char), 1, fp);
     }
 }
