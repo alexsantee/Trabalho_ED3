@@ -20,12 +20,16 @@ void leregistro(FILE * fp, struct registro * reg)
     fscanf(fp,"%c", &lixo);
     fscanf(fp,"%d", &reg->distancia);
     fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%[^,]", reg->cidadeOrigem);
+    fscanf(fp,"%77[^,]", reg->cidadeOrigem);
     fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%[^,]", reg->cidadeDestino);
+    fscanf(fp,"%77[^,]", reg->cidadeDestino);
     fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%[^\n]", reg->tempoViagem);
+    fscanf(fp,"%77[^\n]", reg->tempoViagem);
     fscanf(fp,"%c", &lixo);
+
+    reg->estadoOrigem[2] = '\0';
+    reg->estadoDestino[2] = '\0';
+    
 }
 
 void escreve_registro(FILE * fp, struct registro * reg)
