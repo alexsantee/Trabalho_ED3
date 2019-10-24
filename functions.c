@@ -28,7 +28,7 @@ void leregistro(FILE * fp, struct registro * reg)
     fscanf(fp,"%c", &lixo);
 }
 
-int salva_registro(FILE * fp, struct registro * reg)
+int escreve_registro(FILE * fp, struct registro * reg)
 {
     int i, j = 0;
     int ini, fim;
