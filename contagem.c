@@ -129,7 +129,7 @@ void grava_registros(FILE *fp, struct lista *lista){
         len = strnlen(lista->cidades[i].nome, TAM_VAR);
         fwrite(lista->cidades[i].nome, sizeof(char), len, fp);
         for(j=0; j < TAM_VAR-len; j++){
-            fwrite(LIXO_STR, sizeof(char), 1, fp);  //PODE SER OTIMIZADO?
+            fwrite(&LIXO, sizeof(char), 1, fp);  //PODE SER OTIMIZADO?
         }
         //Grava numero de repeticoes
         fwrite( &(lista->cidades[i].repeticoes), sizeof(int), 1, fp);
