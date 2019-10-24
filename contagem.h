@@ -2,6 +2,7 @@
 #define __CONTAGEM_H__
 
 #define TAM_MAX_LISTA 1000
+const int ENCONTRADO = 0;
 const int NAO_ENCONTRADO = -1;
 
 struct cidade{
@@ -20,5 +21,13 @@ void inicializa_lista(struct lista *lista);
 int busca_cidade(char *nome, int *pos ,struct lista *lista);
 void insere_cidade(char *nome, struct lista *lista);
 int remove_cidade(char *nome, struct lista *lista);
+
+int grava_arquivo(char *nome, struct lista *lista);
+void grava_header(FILE *fp, char status);
+void grava_registros(FILE *fp, struct lista *lista);
+
+int le_arquivo(char *nome, struct lista *lista);
+char le_header(FILE *fp);
+void le_registros(FILE *fp, struct lista *lista);
 
 #endif
