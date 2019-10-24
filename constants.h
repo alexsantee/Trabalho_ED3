@@ -56,6 +56,4 @@ enum campoH {
     ULTIMA_COMPILACAO = 9   // 10 bytes
 };
 
-void leregistro(char *, struct registro *);
-
 #endif
