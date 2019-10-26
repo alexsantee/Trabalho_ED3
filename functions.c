@@ -10,23 +10,28 @@
     antes de utilizar essa função
 */
 
+FILE * abreCSV(char * nome)
+{
+    FILE * fp = fopen(nome, "r+");
+    
+    return fp;
+}
+
+FILE * criaBin(char * nomeBin)
+{
+    FILE * fp = fopen(nomeBin, "w+");
+
+    return fp;
+}
+
 void leregistro(FILE * fp, struct registro * reg)
 {
-    char lixo = ' ';
-
-    fscanf(fp,"%[^,]", reg->estadoOrigem);
-    fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%[^,]", reg->estadoDestino);
-    fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%d", &reg->distancia);
-    fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%77[^,]", reg->cidadeOrigem);
-    fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%77[^,]", reg->cidadeDestino);
-    fscanf(fp,"%c", &lixo);
-    fscanf(fp,"%77[^\n]", reg->tempoViagem);
-    fscanf(fp,"%c", &lixo);
-
+    fscanf(fp," %[^,]%*c ", reg->estadoOrigem);
+    fscanf(fp," %[^,]%*c ", reg->estadoDestino);
+    fscanf(fp," %d%*c ", &reg->distancia);
+    fscanf(fp," %77[^,]%*c ", reg->cidadeOrigem);
+    fscanf(fp," %77[^,]%*c ", reg->cidadeDestino);
+    fscanf(fp," %77[^\n]%*c ", reg->tempoViagem);
 }
 
 void escreve_registro(FILE * fp, struct registro * reg)
@@ -82,7 +87,7 @@ void escreve_registro(FILE * fp, struct registro * reg)
 
     return;
 }
-
+/*
 int main()
 {
     struct registro * reg;
@@ -90,12 +95,12 @@ int main()
     FILE * fp1 = fopen("arq.csv","rt");
     FILE * fp2 = fopen("saida.bin","wb");
 
-    leregistro(fp1,reg);
+    leregistro(fp1, reg);
 
-    escreve_registro(fp2,reg);
+    escreve_registro(fp2, reg);
 
     fclose(fp1);
     fclose(fp2);
 
     return 0;
-}
+}*/
