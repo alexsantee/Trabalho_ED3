@@ -29,6 +29,12 @@ void leregistro(FILE * fp, struct registro * reg)
 
 }
 
+/*
+    Reescreve no arquivo binário um registro lido de um arquivo .csv.
+    Considera que as discrepâncias entre os registros (campos vazios 
+    e afins) foram solucionadas por funções que a antecederam.
+*/
+
 void escreve_registro(FILE * fp, struct registro * reg)
 {
     int i, j = 0, k;
@@ -81,21 +87,4 @@ void escreve_registro(FILE * fp, struct registro * reg)
     }
 
     return;
-}
-
-int main()
-{
-    struct registro * reg;
-    reg = (struct registro *) calloc(1,sizeof(struct registro));
-    FILE * fp1 = fopen("arq.csv","rt");
-    FILE * fp2 = fopen("saida.bin","wb");
-
-    leregistro(fp1,reg);
-
-    escreve_registro(fp2,reg);
-
-    fclose(fp1);
-    fclose(fp2);
-
-    return 0;
 }
