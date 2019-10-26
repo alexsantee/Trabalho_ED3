@@ -27,53 +27,75 @@ void leregistro(FILE * fp, struct registro * reg)
     fscanf(fp,"%77[^\n]", reg->tempoViagem);
     fscanf(fp,"%c", &lixo);
 
-    reg->estadoOrigem[2] = '\0';
-    reg->estadoDestino[2] = '\0';
-    
 }
 
 void escreve_registro(FILE * fp, struct registro * reg)
 {
-    int i, j = 0;
+    int i, j = 0, k;
     int ini, fim;
 
     ini = ftell(fp);
 
-    for(i = 0; i < sizeof(reg->estadoOrigem); i++)
-        fwrite(&reg->estadoOrigem[i], sizeof(char), 1, fp);
-    
-    for(i = 0; i < sizeof(reg->estadoDestino); i++)
-        fwrite(&reg->estadoDestino[i], sizeof(char), 1, fp);
-    
-    fwrite(&reg->distancia, sizeof(int), 1, fp);
+    for(i = 0; i < (sizeof(reg->estadoOrigem) - 1); i++)
+        fwrite(&(reg->estadoOrigem[i]), sizeof(char), 1, fp);
+
+    for(i = 0; i < (sizeof(reg->estadoDestino) - 1); i++)
+        fwrite(&(reg->estadoDestino[i]), sizeof(char), 1, fp);
+
+    fwrite(&(reg->distancia), sizeof(int), 1, fp);
 
     do
-    {   fwrite(&reg->cidadeOrigem[j], sizeof(char), 1, fp);
-    } while (reg->cidadeOrigem[j] != '\0' && ++j);
+    {   fwrite(&(reg->cidadeOrigem[j]), sizeof(char), 1, fp);
+        j++;
+    } while (reg->cidadeOrigem[j] != '\0');
 
-    fwrite(&SEPARADOR_CAMPO, sizeof(char), 1, fp);
+    fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
 
     j=0;
 
     do
-    {   fwrite(&reg->cidadeDestino[j], sizeof(char), 1, fp);
-    }while (reg->cidadeDestino[j] != '\0' && ++j);
+    {   fwrite(&(reg->cidadeDestino[j]), sizeof(char), 1, fp);
+        j++;
+    }while (reg->cidadeDestino[j] != '\0');
 
-    fwrite(&SEPARADOR_CAMPO, sizeof(char), 1, fp);
+    fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
 
     j=0;
 
     do
-    {   fwrite(&reg->tempoViagem, sizeof(char), 1, fp);
-    }while (reg->tempoViagem[j] != '\0' && ++j);
+    {   fwrite(&(reg->tempoViagem[j]), sizeof(char), 1, fp);
+        j++;
+    }while (reg->tempoViagem[j] != '\0');
 
-    fwrite(&SEPARADOR_CAMPO, sizeof(char), 1, fp);
-    fwrite(&SEPARADOR_REGISTRO, sizeof(char), 1, fp);
-    
+    fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
+    fwrite(&(SEPARADOR_REGISTRO), sizeof(char), 1, fp);
+
     fim = ftell(fp);
-    
-    while((fim - ini) < TAMANHO_REGISTRO)
+
+    k = fim - ini;
+
+    while(k < TAMANHO_REGISTRO)
     {
-        fwrite(&LIXO, sizeof(char), 1, fp);
+        fwrite(&(LIXO), sizeof(char), 1, fp);
+        k++;
     }
+
+    return;
+}
+
+int main()
+{
+    struct registro * reg;
+    reg = (struct registro *) calloc(1,sizeof(struct registro));
+    FILE * fp1 = fopen("arq.csv","rt");
+    FILE * fp2 = fopen("saida.bin","wb");
+
+    leregistro(fp1,reg);
+
+    escreve_registro(fp2,reg);
+
+    fclose(fp1);
+    fclose(fp2);
+
+    return 0;
 }
