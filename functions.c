@@ -34,6 +34,12 @@ void leregistro(FILE * fp, struct registro * reg)
     fscanf(fp," %77[^\n]%*c ", reg->tempoViagem);
 }
 
+/*
+    Reescreve no arquivo binário um registro lido de um arquivo .csv.
+    Considera que as discrepâncias entre os registros (campos vazios 
+    e afins) foram solucionadas por funções que a antecederam.
+*/
+
 void escreve_registro(FILE * fp, struct registro * reg)
 {
     int i, j = 0, k;
@@ -86,6 +92,7 @@ void escreve_registro(FILE * fp, struct registro * reg)
     }
 
     return;
+<<<<<<< HEAD
 }
 
 int main()
@@ -104,3 +111,6 @@ int main()
 
     return 0;
 }
+=======
+}
+>>>>>>> c77ffd45b4b466756a0a66c516989bcdff49019e
