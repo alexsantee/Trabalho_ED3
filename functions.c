@@ -87,7 +87,7 @@ void escreve_registro(FILE * fp, struct registro * reg)
 
     return;
 }
-/*
+
 int main()
 {
     struct registro * reg;
@@ -103,4 +103,4 @@ int main()
     fclose(fp2);
 
     return 0;
-}*/
+}
