@@ -26,13 +26,11 @@ void leregistro(FILE * fp, struct registro * reg)
     fscanf(fp,"%c", &lixo);
     fscanf(fp,"%77[^\n]", reg->tempoViagem);
     fscanf(fp,"%c", &lixo);
-
 }
 
 /*
-    Reescreve no arquivo binário um registro lido de um arquivo .csv.
-    Considera que as discrepâncias entre os registros (campos vazios 
-    e afins) foram solucionadas por funções que a antecederam.
+    Função que recebe um registro lido do arquivo .csv e a escreve
+    no arquivo binário de dados.
 */
 
 void escreve_registro(FILE * fp, struct registro * reg)
@@ -50,28 +48,31 @@ void escreve_registro(FILE * fp, struct registro * reg)
 
     fwrite(&(reg->distancia), sizeof(int), 1, fp);
 
-    do
-    {   fwrite(&(reg->cidadeOrigem[j]), sizeof(char), 1, fp);
+    while (reg->cidadeOrigem[j] != '\0')
+    {
+        fwrite(&(reg->cidadeOrigem[j]), sizeof(char), 1, fp);
         j++;
-    } while (reg->cidadeOrigem[j] != '\0');
+    }
 
     fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
 
     j=0;
 
-    do
-    {   fwrite(&(reg->cidadeDestino[j]), sizeof(char), 1, fp);
+    while (reg->cidadeDestino[j] != '\0')
+    {
+        fwrite(&(reg->cidadeDestino[j]), sizeof(char), 1, fp);
         j++;
-    }while (reg->cidadeDestino[j] != '\0');
+    }
 
     fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
 
     j=0;
 
-    do
-    {   fwrite(&(reg->tempoViagem[j]), sizeof(char), 1, fp);
+    while (reg->tempoViagem[j] != '\0')
+    {
+        fwrite(&(reg->tempoViagem[j]), sizeof(char), 1, fp);
         j++;
-    }while (reg->tempoViagem[j] != '\0');
+    }
 
     fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
     fwrite(&(SEPARADOR_REGISTRO), sizeof(char), 1, fp);
@@ -85,6 +86,4 @@ void escreve_registro(FILE * fp, struct registro * reg)
         fwrite(&(LIXO), sizeof(char), 1, fp);
         k++;
     }
-
-    return;
 }
