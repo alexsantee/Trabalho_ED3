@@ -24,7 +24,6 @@ void funcionalidade1(char * nomecsv, char * nomebin)
     }
 
     fgets(str, 90, fp);
-    int i = 0;
     while(leregistro(fp, reg))
     {
         escreve_registro(fp2, reg);
