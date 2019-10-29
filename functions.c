@@ -1,21 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "constants.h"
 #include "helper.h"
 #include "functions.h"
-
-FILE * abreCSV(char * nome)
-{    
-    FILE * fp = fopen(nome, "r+");
-    return fp;
-}
-
-FILE * criaBin(char * nomeBin)
-{
-    FILE * fp = fopen(nomeBin, "w+");
-
-    return fp;
-}
 
 /*
     OBSERVAÇÃO IMPORTANTE
@@ -24,14 +12,17 @@ FILE * criaBin(char * nomeBin)
     antes de utilizar essa função
 */
 
-void leregistro(FILE * fp, struct registro * reg)
+int leregistro(FILE * fp, struct registro * reg)
 {
-    fscanf(fp," %[^,]%*c ", reg->estadoOrigem);
-    fscanf(fp," %[^,]%*c ", reg->estadoDestino);
-    fscanf(fp," %d%*c ", &reg->distancia);
-    fscanf(fp," %77[^,]%*c ", reg->cidadeOrigem);
-    fscanf(fp," %77[^,]%*c ", reg->cidadeDestino);
-    fscanf(fp," %77[^\n]%*c ", reg->tempoViagem);
+    if(fscanf(fp," %[^,]%*c", reg->estadoOrigem) == EOF)
+        return 0;
+    fscanf(fp,"%[^,]%*c", reg->estadoDestino);
+    fscanf(fp,"%d%*c", &reg->distancia);
+    fscanf(fp,"%77[^,]%*c", reg->cidadeOrigem);
+    fscanf(fp,"%77[^,]%*c", reg->cidadeDestino);
+    fscanf(fp,"%77[^\n]%*c", reg->tempoViagem);
+
+    return 1;
 }
 
 /*

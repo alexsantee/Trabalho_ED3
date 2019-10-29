@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "constants.h"
 
-void leregistro(FILE *, struct registro *);
+int leregistro(FILE *, struct registro *);
 
 void escreve_registro(FILE *, struct registro *);
