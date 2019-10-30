@@ -23,6 +23,10 @@ int main()
         scanf("%s", nomeBIN);
         funcionalidade1(nomeCSV, nomeBIN);
         break;
+
+    case 2:
+        scanf("%s", nomeBIN);
+        funcionalidade2(nomeBIN);
     }
     return 1;
 }

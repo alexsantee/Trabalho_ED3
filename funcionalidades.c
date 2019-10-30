@@ -36,3 +36,21 @@ void funcionalidade1(char * nomecsv, char * nomebin)
 
     binarioNaTela1(nomebin);
 }
+
+void funcionalidade2(char * nomebin)
+{
+    struct registro * reg = (struct registro *)calloc(1,sizeof(struct registro));
+    int i = 0;
+    
+    FILE * fp = fopen(nomebin, "rb");
+    if(fp == NULL)
+        return;
+    
+    while(leregbin(fp, reg))
+    {
+        printf("%d %s %s %d %s %s %s\n", i, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
+        i++;
+        free(reg);
+        reg = (struct registro *)calloc(1,sizeof(struct registro));
+    }
+}

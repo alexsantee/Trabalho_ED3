@@ -5,3 +5,5 @@
 int leregistro(FILE *, struct registro *);
 
 void escreve_registro(FILE *, struct registro *);
+
+int leregbin(FILE *, struct registro *);

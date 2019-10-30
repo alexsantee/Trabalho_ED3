@@ -84,3 +84,44 @@ void escreve_registro(FILE * fp, struct registro * reg)
         k++;
     }
 }
+
+int leregbin(FILE *fp, struct registro * reg)
+{
+    char c = SEPARADOR_REGISTRO;
+    int i = 0;
+    
+    while(c == SEPARADOR_REGISTRO)
+        if(fread(&c, sizeof(char), 1, fp) == 0)
+            return 0;
+    
+    reg->estadoOrigem[0] = c;
+    fread(&(reg->estadoOrigem[1]), sizeof(char), 1, fp);
+    fread(reg->estadoDestino, sizeof(char), 2, fp);
+    fread(&(reg->distancia), sizeof(int), 1, fp);
+    
+    fread(&c, sizeof(char), 1, fp);
+    while (c != SEPARADOR_CAMPO)
+    {
+        reg->cidadeOrigem[i] = c;
+        fread(&c, sizeof(char), 1, fp);
+        i++;
+    }
+
+    i = 0;
+    fread(&c, sizeof(char), 1, fp);
+    while (c != SEPARADOR_CAMPO)
+    {
+        reg->cidadeDestino[i] = c;
+        fread(&c, sizeof(char), 1, fp);
+        i++;
+    }
+
+    i = 0;
+    fread(&c, sizeof(char), 1, fp);
+    while(c != SEPARADOR_CAMPO)
+    {
+        reg->tempoViagem[i] = c;
+        fread(&c, sizeof(char), 1, fp);
+        i++;
+    }
+}
