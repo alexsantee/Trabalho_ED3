@@ -124,4 +124,197 @@ int leregbin(FILE *fp, struct registro * reg)
         fread(&c, sizeof(char), 1, fp);
         i++;
     }
+
+    return 1;
+}
+
+int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *reg)
+{
+    char str[TAM_VAR];
+
+    if(strcmp(nomecamp, "estadoOrigem") == 0)
+    {
+        long ini = ftell(fp);
+        fseek(fp, ESTADO_ORIG, SEEK_CUR);
+        if(fread(str, sizeof(char), 2, fp) == 0)
+            return -1;
+
+        fseek(fp, -(ftell(fp) - ini), SEEK_CUR);
+        if(strcmp(str, buscado) == 0)
+        {
+            leregbin(fp, reg);
+            return 1;
+        }
+        else
+        {
+            fseek(fp, TAMANHO_REGISTRO, SEEK_CUR);
+            return 0;
+        }
+    }
+
+    if(strcmp(nomecamp, "estadoDestino") == 0)
+    {
+        long ini = ftell(fp);
+        fseek(fp, ESTADO_DEST, SEEK_CUR);
+        if(fread(str, sizeof(char), 2, fp) == 0)
+            return -1;
+
+        fseek(fp, -(ftell(fp) - ini), SEEK_CUR);
+        if(strcmp(str, buscado) == 0)
+        {
+            leregbin(fp, reg);
+            return 1;
+        }
+        else
+        {
+            fseek(fp, TAMANHO_REGISTRO, SEEK_CUR);
+            return 0;
+        }
+    }
+
+    if(strcmp(nomecamp, "distancia") == 0)
+    {
+        long ini = ftell(fp);
+        int numb = buscado - "0";
+        int num;
+        fseek(fp, DISTANCIA, SEEK_CUR);
+        if(fread(&num, sizeof(int), 1, fp) == 0)
+            return -1;
+
+        fseek(fp, -(ftell(fp) - ini), SEEK_CUR);
+        if(num == numb)
+        {
+            leregbin(fp, reg);
+            return 1;
+        }
+        else
+        {
+            fseek(fp, TAMANHO_REGISTRO, SEEK_CUR);
+            return 0;
+        }
+    }
+
+    if(strcmp(nomecamp, "cidadeOrigem") == 0)
+    {
+        long ini = ftell(fp);
+        char c;
+        char str[TAM_VAR] = "";
+        int i = 0;
+        
+        fseek(fp, CIDADE_ORIG, SEEK_CUR);
+        if(fread(&c, sizeof(char), 1, fp) == 0)
+            return -1;
+        
+        while(c != SEPARADOR_CAMPO)
+        {
+            str[i] = c;
+            i++;
+            fread(&c, sizeof(char), 1, fp);
+        }
+
+        fseek(fp, -(ftell(fp)-ini), SEEK_CUR);
+        if(strcmp(str, buscado) == 0)
+        {
+            leregbin(fp, reg);
+            return 1;
+        }
+        else
+        {
+            fseek(fp, TAMANHO_REGISTRO, SEEK_CUR);
+            return 0;
+        }
+    }
+
+    if(strcmp(nomecamp, "cidadeDestino") == 0)
+    {
+        long ini = ftell(fp);
+        char c = ' ';
+        char str[TAM_VAR] = "";
+        int i = 0;
+        
+        if(fseek(fp, CIDADE_ORIG, SEEK_CUR) != 0)
+            return -1;
+        
+        if(fread(&c, sizeof(char), 1, fp) == 0)
+            return -1;        
+
+        while(c != SEPARADOR_CAMPO)
+        {
+            fread(&c, sizeof(char), 1, fp);
+        }
+        
+        if(fread(&c, sizeof(char), 1, fp) == 0)
+            return -1;
+
+        while(c != SEPARADOR_CAMPO)
+        {
+            str[i] = c;
+            i++;
+            fread(&c, sizeof(char), 1, fp);
+        }
+
+        fseek(fp, ini, SEEK_SET);
+        if(strcmp(str, buscado) == 0)
+        {
+            leregbin(fp, reg);
+            return 1;
+        }
+        else
+        {
+            if(fseek(fp, (ini + TAMANHO_REGISTRO) , SEEK_SET) != 0)
+                return -1;
+            
+            return 0;
+        }
+    }
+
+    if(strcmp(nomecamp, "tempoViagem") == 0)
+    {
+        long ini = ftell(fp);
+        char c;
+        char str[TAM_VAR] = "";
+        int i = 0;
+        
+        fseek(fp, CIDADE_ORIG, SEEK_CUR);
+
+        if(fread(&c, sizeof(char), 1, fp) == 0)
+            return -1;
+        
+        while(c != SEPARADOR_CAMPO)
+        {
+            fread(&c, sizeof(char), 1, fp);
+        }
+
+        if(fread(&c, sizeof(char), 1, fp) == 0)
+            return -1;
+
+        while(c != SEPARADOR_CAMPO)
+        {
+            fread(&c, sizeof(char), 1, fp);
+        }
+
+        if(fread(&c, sizeof(char), 1, fp) == 0)
+            return -1;
+
+        while(c != SEPARADOR_CAMPO)
+        {
+            str[i] = c;
+            i++;
+            fread(&c, sizeof(char), 1, fp);
+        }
+
+        fseek(fp, -(ftell(fp)-ini), SEEK_CUR);
+        if(strcmp(str, buscado) == 0)
+        {
+            leregbin(fp, reg);
+            return 1;
+        }
+        else
+        {
+            fseek(fp, TAMANHO_REGISTRO, SEEK_CUR);
+            return 0;
+        }
+    }
+
+    return -1;
 }

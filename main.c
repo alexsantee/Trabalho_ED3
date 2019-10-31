@@ -10,6 +10,8 @@ int main()
     int op;
     char nomeCSV[77];
     char nomeBIN[77];
+    char nomecampo[77];
+    char valor[77];
     scanf("%d", &op);
 
     switch (op)
@@ -27,6 +29,13 @@ int main()
     case 2:
         scanf("%s", nomeBIN);
         funcionalidade2(nomeBIN);
+        break;
+
+    case 3:
+        scanf("%s", nomeBIN);
+        scanf("%s", nomecampo);
+        scan_quote_string(valor);
+        funcionalidade3(nomeBIN, nomecampo, valor);
     }
     return 1;
 }
