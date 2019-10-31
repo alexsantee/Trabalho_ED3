@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "constants.h"
 #include "helper.h"
 #include "functions.h"
@@ -34,7 +35,10 @@ int main()
     case 3:
         scanf("%s", nomeBIN);
         scanf("%s", nomecampo);
-        scan_quote_string(valor);
+        if(strcmp(nomecampo, "distancia") == 0)
+            scanf("%s", valor);
+        else
+            scan_quote_string(valor);
         funcionalidade3(nomeBIN, nomecampo, valor);
     }
     return 1;
