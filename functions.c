@@ -148,11 +148,12 @@ int leCampoVar(FILE * fp, char *str)
 
 int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *reg)
 {
-    char str[TAM_VAR];
+    char str[TAM_VAR] = "";
+    long ini = ftell(fp);
+    int RRN = ini/TAMANHO_REGISTRO;
 
     if(strcmp(nomecamp, "estadoOrigem") == 0)
     {
-        long ini = ftell(fp);
         if(fseek(fp, ESTADO_ORIG, SEEK_CUR) != 0)
             return -1;
 
@@ -165,19 +166,18 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
         {
             leregbin(fp, reg);
             fseek(fp, (ini + TAMANHO_REGISTRO), SEEK_SET);
-            return 1;
+            return RRN;
         }
         else
         {
             if(fseek(fp, (ini + TAMANHO_REGISTRO), SEEK_SET) != 0)
                 return -1;
-            return 0;
+            return -2;
         }
     }
 
     if(strcmp(nomecamp, "estadoDestino") == 0)
     {
-        long ini = ftell(fp);
         if(fseek(fp, ESTADO_DEST, SEEK_CUR) != 0)
             return -1;
 
@@ -190,19 +190,18 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
         {
             leregbin(fp, reg);
             fseek(fp,(ini + TAMANHO_REGISTRO), SEEK_SET);
-            return 1;
+            return RRN;
         }
         else
         {
             if(fseek(fp,(ini + TAMANHO_REGISTRO), SEEK_SET) != 0)
                 return -1;
-            return 0;
+            return -2;
         }
     }
 
     if(strcmp(nomecamp, "distancia") == 0)
     {
-        long ini = ftell(fp);
         int numb = atoi(buscado);
         int num;
         if(fseek(fp, DISTANCIA, SEEK_CUR) != 0)
@@ -217,21 +216,18 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
         {
             leregbin(fp, reg);
             fseek(fp,(ini + TAMANHO_REGISTRO), SEEK_SET);
-            return 1;
+            return RRN;
         }
         else
         {
             if(fseek(fp,(ini + TAMANHO_REGISTRO), SEEK_SET) != 0)
                 return -1;
-            return 0;
+            return -2;
         }
     }
 
     if(strcmp(nomecamp, "cidadeOrigem") == 0)
     {
-        long ini = ftell(fp);
-        char str[TAM_VAR] = "";
-        
         if(fseek(fp, CIDADE_ORIG, SEEK_CUR) != 0)
             return -1;
         
@@ -244,21 +240,19 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
         {
             leregbin(fp, reg);
             fseek(fp, (ini + TAMANHO_REGISTRO), SEEK_SET);
-            return 1;
+            return RRN;
         }
         else
         {
             if(fseek(fp,(ini + TAMANHO_REGISTRO), SEEK_SET) != 0)
                 return -1;
-            return 0;
+            return -2;
         }
     }
 
     if(strcmp(nomecamp, "cidadeDestino") == 0)
     {
-        long ini = ftell(fp);
         char lixo[TAM_VAR];
-        char str[TAM_VAR] = "";
         
         if(fseek(fp, CIDADE_ORIG, SEEK_CUR) != 0)
             return -1;
@@ -275,22 +269,20 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
         {
             leregbin(fp, reg);
             fseek(fp, (ini+TAMANHO_REGISTRO), SEEK_SET);
-            return 1;
+            return RRN;
         }
         else
         {
             if(fseek(fp, (ini + TAMANHO_REGISTRO) , SEEK_SET) != 0)
                 return -1;
             
-            return 0;
+            return -2;
         }
     }
 
     if(strcmp(nomecamp, "tempoViagem") == 0)
     {
-        long ini = ftell(fp);
         char lixo[TAM_VAR];
-        char str[TAM_VAR] = "";
         
         if(fseek(fp, CIDADE_ORIG, SEEK_CUR) != 0)
             return -1;
@@ -310,14 +302,14 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
         {
             leregbin(fp, reg);
             fseek(fp, (ini + TAMANHO_REGISTRO), SEEK_SET);
-            return 1;
+            return RRN;
         }
         else
         {
             if(fseek(fp, (ini + TAMANHO_REGISTRO), SEEK_SET) != 0)
                 return -1;
 
-            return 0;
+            return -2;
         }
     }
 

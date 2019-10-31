@@ -9,7 +9,7 @@
 int main()
 {
     int op;
-    int RRN;
+    int num;
     char nomeCSV[77];
     char nomeBIN[77];
     char nomecampo[77];
@@ -45,8 +45,15 @@ int main()
 
     case 4:
         scanf("%s", nomeBIN);
-        scanf("%d", &RRN);
-        funcionalidade4(nomeBIN, RRN);
+        scanf("%d", &num);
+        funcionalidade4(nomeBIN, num);
+        break;
+
+    case 5:
+        scanf("%s", nomeBIN);
+        scanf("%d", &num);
+        for(int i = 0; i < num; i++)
+            funcionalidade5(nomeBIN);
         break;
     }
     return 1;

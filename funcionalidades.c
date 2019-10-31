@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "functions.h"
 #include "constants.h"
 #include "helper.h"
@@ -35,6 +36,7 @@ void funcionalidade1(char * nomecsv, char * nomebin)
     fclose(fp2);
 
     binarioNaTela1(nomebin);
+    return;
 }
 
 void funcionalidade2(char * nomebin)
@@ -56,12 +58,14 @@ void funcionalidade2(char * nomebin)
         free(reg);
         reg = (struct registro *)calloc(1,sizeof(struct registro));
     }
+
+    fclose(fp);
+    return;
 }
 
 void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
 {
     int rrn = 0;
-    int flag;
     struct registro *reg = (struct registro *)calloc(1,sizeof(struct registro));
 
     FILE * fp = fopen(nomebin, "rb");
@@ -71,16 +75,18 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
         return;
     }
 
-    flag = buscaporCampo(fp, nomecampo, buscado, reg);
-    while(flag != -1)
+    rrn = buscaporCampo(fp, nomecampo, buscado, reg);
+    while(rrn != -1)
     {
-        if(flag == 1)
+        if(rrn >= 0)
              printf("%d %s %s %d %s %s %s\n", rrn, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
         free(reg);
         reg = (struct registro *)calloc(1,sizeof(struct registro));
-        flag = buscaporCampo(fp, nomecampo, buscado, reg);
-        rrn++;
+        rrn = buscaporCampo(fp, nomecampo, buscado, reg);
     }
+
+    fclose(fp);
+    return;
 }
 
 void funcionalidade4(char * nomebin, int rrn)
@@ -98,5 +104,41 @@ void funcionalidade4(char * nomebin, int rrn)
     else
         printf("%d %s %s %d %s %s %s\n", rrn, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);  
 
+    fclose(fp);
     return;     
+}
+
+void funcionalidade5(char *nomebin)
+{
+    char nomecampo[TAM_VAR];
+    char valor[TAM_VAR];
+    struct registro *reg = (struct registro *)calloc(1,sizeof(struct registro));
+    int RRN;
+    
+    FILE * fp = fopen(nomebin, "rb+");
+    if(fp == NULL)
+    {
+        printf("Falha no processamento do arquivo.");
+        return;
+    }
+
+    scanf("%s", nomecampo);
+    if(strcmp(nomecampo, "distancia") == 0)
+        scanf("%s", valor);
+    else
+        scan_quote_string(valor);
+    RRN = buscaporCampo(fp, nomecampo, valor, reg);
+    while(RRN != -1)
+    {
+        if(RRN >= 0)
+        {
+            fseek(fp, RRN*TAMANHO_REGISTRO, SEEK_SET);
+            fwrite(&INDICA_REMOVIDO, sizeof(char), 1, fp);
+            fseek(fp, (RRN+1)*TAMANHO_REGISTRO, SEEK_SET);
+        }
+        RRN = buscaporCampo(fp, nomecampo, valor, reg);
+    }
+
+    fclose(fp);
+    return;
 }

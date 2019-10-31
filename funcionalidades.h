@@ -8,3 +8,5 @@ void funcionalidade2(char * nomebin);
 void funcionalidade3(char * nomebin, char * nomecampo, char * buscado);
 
 void funcionalidade4(char * nomebin, int RRN);
+
+void funcionalidade5(char * nomebin);
