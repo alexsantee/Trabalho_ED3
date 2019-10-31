@@ -253,10 +253,13 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
             fread(&c, sizeof(char), 1, fp);
         }
 
-        fseek(fp, ini, SEEK_SET);
+        if(fseek(fp, ini, SEEK_SET) != 0)
+            return -1;
+
         if(strcmp(str, buscado) == 0)
         {
             leregbin(fp, reg);
+            fseek(fp, (ini+TAMANHO_REGISTRO), SEEK_SET);
             return 1;
         }
         else
