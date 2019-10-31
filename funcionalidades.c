@@ -53,7 +53,8 @@ void funcionalidade2(char * nomebin)
 
     while(leregbin(fp, reg))
     {
-        printf("%d %s %s %d %s %s %s\n", i, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
+        if(reg->estadoOrigem[0] != INDICA_REMOVIDO)
+            printf("%d %s %s %d %s %s %s\n", i, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
         i++;
         free(reg);
         reg = (struct registro *)calloc(1,sizeof(struct registro));
@@ -66,6 +67,7 @@ void funcionalidade2(char * nomebin)
 void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
 {
     int rrn = 0;
+    int achou = 0;
     struct registro *reg = (struct registro *)calloc(1,sizeof(struct registro));
 
     FILE * fp = fopen(nomebin, "rb");
@@ -78,12 +80,18 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
     rrn = buscaporCampo(fp, nomecampo, buscado, reg);
     while(rrn != -1)
     {
-        if(rrn >= 0)
-             printf("%d %s %s %d %s %s %s\n", rrn, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
+        if(rrn >= 0 && (reg->estadoOrigem[0] != INDICA_REMOVIDO))
+        {
+                printf("%d %s %s %d %s %s %s\n", rrn, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
+                achou = 1;
+        }
         free(reg);
         reg = (struct registro *)calloc(1,sizeof(struct registro));
         rrn = buscaporCampo(fp, nomecampo, buscado, reg);
     }
+
+    if(!achou)
+        printf("Registro Inexistente.");
 
     fclose(fp);
     return;
