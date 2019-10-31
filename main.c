@@ -9,6 +9,7 @@
 int main()
 {
     int op;
+    int RRN;
     char nomeCSV[77];
     char nomeBIN[77];
     char nomecampo[77];
@@ -40,6 +41,13 @@ int main()
         else
             scan_quote_string(valor);
         funcionalidade3(nomeBIN, nomecampo, valor);
+        break;
+
+    case 4:
+        scanf("%s", nomeBIN);
+        scanf("%d", &RRN);
+        funcionalidade4(nomeBIN, RRN);
+        break;
     }
     return 1;
 }

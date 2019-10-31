@@ -323,3 +323,17 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
 
     return -1;
 }
+
+int buscaRRN(FILE *fp, int RRN, struct registro *reg)
+{
+    fseek(fp, RRN*TAMANHO_REGISTRO, SEEK_SET);
+    if(!leregbin(fp, reg))
+    {
+        printf("Registro inexistente.");
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}

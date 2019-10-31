@@ -11,3 +11,5 @@ int leregbin(FILE *, struct registro *);
 int leCampoVar(FILE *, char * string);
 
 int buscaporCampo(FILE *, char * nomedocampo, char * buscado, struct registro *);
+
+int buscaRRN(FILE *, int RRN, struct registro *);

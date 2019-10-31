@@ -45,7 +45,7 @@ void funcionalidade2(char * nomebin)
     FILE * fp = fopen(nomebin, "rb");
     if(fp == NULL)
     {
-        printf("Falha no carregamento do arquivo.");
+        printf("Falha no processamento do arquivo.");
         return;
     }
 
@@ -67,7 +67,7 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
     FILE * fp = fopen(nomebin, "rb");
     if(fp == NULL)
     {
-        printf("Falha no carregamento do arquivo.");
+        printf("Falha no processamento do arquivo.");
         return;
     }
 
@@ -81,4 +81,22 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
         flag = buscaporCampo(fp, nomecampo, buscado, reg);
         rrn++;
     }
+}
+
+void funcionalidade4(char * nomebin, int rrn)
+{
+    struct registro *reg = (struct registro *)calloc(1,sizeof(struct registro));
+    FILE * fp = fopen(nomebin, "rb");
+    if(fp == NULL)
+    {
+        printf("Falha no processamento do arquivo.");
+        return;
+    }
+
+    if(!buscaRRN(fp, rrn, reg))
+        return;
+    else
+        printf("%d %s %s %d %s %s %s\n", rrn, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);  
+
+    return;     
 }
