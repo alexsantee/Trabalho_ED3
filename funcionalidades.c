@@ -6,6 +6,13 @@
 #include "helper.h"
 #include "funcionalidades.h"
 
+/*
+    Essa funcionalidade recebe o nome do arquivo CSV
+    e o nome do binario como parâmetros e apenas lê todos
+    os registros contidos no CSV transcrevendo-os para
+    o binário que será criado.
+*/
+
 void funcionalidade1(char * nomecsv, char * nomebin)
 {
     struct registro * reg = (struct registro *)calloc(1,sizeof(struct registro));
@@ -39,6 +46,12 @@ void funcionalidade1(char * nomecsv, char * nomebin)
     return;
 }
 
+/*
+    Essa funcionalidade recebe o nome de um arquivo binário
+    como parâmetro e percorre todo o arquivo printando o conteúdo
+    dos registros na tela, junto ao RRN correspondente de cada um deles
+*/
+
 void funcionalidade2(char * nomebin)
 {
     struct registro * reg = (struct registro *)calloc(1,sizeof(struct registro));
@@ -63,6 +76,13 @@ void funcionalidade2(char * nomebin)
     fclose(fp);
     return;
 }
+
+/*
+    Essa funcionalidade recebe o nome de um arquivo binario, o nome
+    de um campo e o valor do mesmo e realiza uma busca por todo o
+    arquivo binario por campos com o nome igual ao do valor especificado
+    printando-os caso encontre.
+*/
 
 void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
 {
@@ -97,6 +117,13 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
     return;
 }
 
+/*
+    Essa funcionalidade recebe o nome de um arquivo binario
+    e um RRN de um registro que deseja ser buscado.
+    Ela busca o registro por todo o arquivo e o printa na tela
+    se for encontrado.
+*/
+
 void funcionalidade4(char * nomebin, int rrn)
 {
     struct registro *reg = (struct registro *)calloc(1,sizeof(struct registro));
@@ -115,6 +142,14 @@ void funcionalidade4(char * nomebin, int rrn)
     fclose(fp);
     return;     
 }
+
+/*
+    Essa funcionalidade recebe o nome de um arquivo binario,
+    além de o nome de um campo e de um valor correspondente.
+    A partir disso, são buscados os registros que contém o
+    campo desejado com o valor igual ao buscado e exclui
+    logicamente todos esses registros.
+*/
 
 void funcionalidade5(char *nomebin)
 {
@@ -148,5 +183,8 @@ void funcionalidade5(char *nomebin)
     }
 
     fclose(fp);
+
+    binarioNaTela1(nomebin);
+
     return;
 }

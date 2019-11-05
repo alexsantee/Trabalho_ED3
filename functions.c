@@ -6,7 +6,6 @@
 #include "functions.h"
 
 /*
-    OBSERVAÇÃO IMPORTANTE
     Essa função serve para pegar um registro do arquivo, porém não leva
     em consideração a linha inicial, dessa forma é necessário removê-la
     antes de utilizar essa função
@@ -85,6 +84,12 @@ void escreve_registro(FILE * fp, struct registro * reg)
     }
 }
 
+/*
+    Função que lê um registro do arquivo binario passado atraves
+    do ponteiro FILE e o salva na struct registro passada como
+    parâmetro.
+*/
+
 int leregbin(FILE *fp, struct registro * reg)
 {
     char c = SEPARADOR_REGISTRO;
@@ -128,6 +133,12 @@ int leregbin(FILE *fp, struct registro * reg)
     return 1;
 }
 
+/*
+    Função que lê um campo de tamanho variável
+    e retorna 1 se a leitura for bem sucedida
+    ou 0 caso não consiga ler.
+*/
+
 int leCampoVar(FILE * fp, char *str)
 {
     char c;
@@ -145,6 +156,13 @@ int leCampoVar(FILE * fp, char *str)
 
     return 1;
 }
+
+/*
+    Função que realiza uma busca no arquivo binario passado
+    pelo ponteiro FILE, relativa a um determinado campo, e
+    retorna -1 caso termine o arquivo, -2 caso não encontre,
+    ou o RRN correspondente caso encontre o campo buscado.
+*/
 
 int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *reg)
 {
@@ -315,6 +333,13 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
 
     return -1;
 }
+
+/*
+    Função que busca um determinado registro
+    identificado pelo RRN passado como parâmetro
+    no arquivo binario passado pelo ponteiro FILE.
+    Retorna 0 se não achar e 1 se achar.
+*/
 
 int buscaRRN(FILE *fp, int RRN, struct registro *reg)
 {
