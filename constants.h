@@ -1,8 +1,8 @@
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
-const int ENCONTRADO = 0;
-const int NAO_ENCONTRADO = -1;
+static const int ENCONTRADO = 0;
+static const int NAO_ENCONTRADO = -1;
 
 static const char SEPARADOR_CAMPO = '|';
 static const char SEPARADOR_REGISTRO = '#';
