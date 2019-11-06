@@ -354,3 +354,15 @@ int buscaRRN(FILE *fp, int RRN, struct registro *reg)
         return 1;
     }
 }
+
+void preenche_cabecalho(struct cabecalho * cab, FILE * arq)
+{
+    fseek(arq,0,SEEK_SET);
+    fwrite("0",sizeof(char),1,arq);
+    fwrite(&(cab->numeroVertices), sizeof(int),1,arq);
+    fwrite(&(cab->numeroArestas),sizeof(int),1,arq);
+    for(int i = 0; i < 10; i++)
+        {
+            fwrite(&(cab->dataUltimaCompactacao[i]),sizeof(char),1,arq);
+        }
+}

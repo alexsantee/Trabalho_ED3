@@ -10,3 +10,5 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado);
 void funcionalidade4(char * nomebin, int RRN);
 
 void funcionalidade5(char * nomebin);
+
+void preenche_cabecalho(struct cabecalho *, FILE *);

@@ -15,6 +15,8 @@
 
 void funcionalidade1(char * nomecsv, char * nomebin)
 {
+    int i = 0;
+    struct cabecalho * cab = (struct cabecalho *)calloc(1,sizeof(struct cabecalho));
     struct registro * reg = (struct registro *)calloc(1,sizeof(struct registro));
     char * str = (char*)calloc(90, sizeof(char));
     FILE * fp = fopen(nomecsv, "rt");
@@ -31,13 +33,19 @@ void funcionalidade1(char * nomecsv, char * nomebin)
         return;
     }
 
+    preenche_cabecalho(cab, fp2); // CABECALHO DEVE SER DETERMINADO AINDA
+
     fgets(str, 90, fp);
     while(leregistro(fp, reg))
-    {
+    {   
+        fseek(fp2, (i * TAMANHO_REGISTRO) + TAMANHO_CABECALHO, SEEK_SET);
         escreve_registro(fp2, reg);
         free(reg);
         reg = (struct registro *)calloc(1,sizeof(struct registro));
     }
+
+    fseek(fp2,0,SEEK_SET);
+    fwrite("1", sizeof(char),1,fp2);
 
     fclose(fp);
     fclose(fp2);
