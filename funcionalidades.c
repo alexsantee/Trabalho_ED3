@@ -38,7 +38,7 @@ void funcionalidade1(char * nomecsv, char * nomebin)
     inicializa_lista(&list);
     
     strcpy((&cab)->dataUltimaCompactacao, "##########");
-    (&cab)->status = "0";
+    (&cab)->status = '0';
     preenche_cabecalho(&cab, destino);
 
     fgets(str, TAMANHO_REGISTRO, origem);
@@ -60,7 +60,7 @@ void funcionalidade1(char * nomecsv, char * nomebin)
 
     (&cab)->numeroArestas = i;
     (&cab)->numeroVertices = (&list)->tamanho;
-    (&cab)->status = "1";
+    (&cab)->status = '1';
     preenche_cabecalho((&cab),destino);
     
     fclose(origem);
