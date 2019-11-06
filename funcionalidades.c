@@ -172,7 +172,7 @@ void funcionalidade4(char * nomebin, int rrn)
     logicamente todos esses registros.
 */
 
-void funcionalidade5(char *nomebin)
+void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIVO BINARIO
 {
     char nomecampo[TAM_VAR];
     char valor[TAM_VAR];
