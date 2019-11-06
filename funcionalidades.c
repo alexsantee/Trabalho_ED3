@@ -37,7 +37,7 @@ void funcionalidade1(char * nomecsv, char * nomebin)
 
     inicializa_lista(&list);
     
-    strcpy((&cab)->dataUltimaCompactacao, "##########");
+    strcpy((&cab)->dataUltimaCompactacao, DATA_INI);
     (&cab)->status = '0';
     preenche_cabecalho(&cab, destino);
 
@@ -177,7 +177,10 @@ void funcionalidade5(char *nomebin)
     char nomecampo[TAM_VAR];
     char valor[TAM_VAR];
     struct registro reg;
+    struct lista list;
+    struct cabecalho cab;
     int RRN;
+    int aresta;
     
     FILE * fp = fopen(nomebin, "rb+");
     if(fp == NULL)
@@ -185,6 +188,13 @@ void funcionalidade5(char *nomebin)
         printf("Falha no processamento do arquivo.");
         return;
     }
+    fwrite("0", sizeof(char), 1, fp);
+
+    inicializa_lista(&list);
+    le_arquivo(NOME_CITY, &list);
+    fseek(fp, NUMERO_ARESTAS, SEEK_SET);
+    fread(&aresta, sizeof(int), 1, fp);
+    fseek(fp, STATUS, SEEK_SET);
 
     scanf("%s", nomecampo);
     if(strcmp(nomecampo, "distancia") == 0)
@@ -199,13 +209,20 @@ void funcionalidade5(char *nomebin)
             fseek(fp, RRN*TAMANHO_REGISTRO, SEEK_SET);
             fwrite(&INDICA_REMOVIDO, sizeof(char), 1, fp);
             fseek(fp, (RRN+1)*TAMANHO_REGISTRO, SEEK_SET);
+            aresta--;
+            remove_cidade((&reg)->cidadeDestino, &list);
+            remove_cidade((&reg)->cidadeOrigem, &list);
         }
         RRN = buscaporCampo(fp, nomecampo, valor, &reg);
     }
 
+    fseek(fp, STATUS, SEEK_SET);
+    strcpy((&cab)->dataUltimaCompactacao, DATA_INI);
+    (&cab)->numeroArestas = aresta;
+    (&cab)->numeroVertices = (&list)->tamanho;
+    (&cab)->status = '1';
+    preenche_cabecalho(&cab, fp);
+
     fclose(fp);
-
-    binarioNaTela1(nomebin);
-
     return;
 }
