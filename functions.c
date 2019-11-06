@@ -366,3 +366,26 @@ void preenche_cabecalho(struct cabecalho * cab, FILE * arq)
             fwrite(&(cab->dataUltimaCompactacao[i]),sizeof(char),1,arq);
         }
 }
+
+/*
+    Função responsável por limpar todos os campos do registro
+    passado como parâmetro.
+*/
+void limpa_reg(struct registro *reg)
+{
+    strcpy(reg->estadoOrigem,"");
+    strcpy(reg->estadoDestino,"");
+    reg->distancia = 0;
+    strcpy(reg->cidadeOrigem,"");
+    strcpy(reg->cidadeDestino,"");
+    strcpy(reg->tempoViagem,"");
+}
+
+/*
+    Função que printa um determinado registro
+    juntamente com o valor de RRN passado, na tela.
+*/
+void print_reg(int RRN, struct registro *reg)
+{
+    printf("%d %s %s %d %s %s %s\n", RRN, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
+}
