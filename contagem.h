@@ -2,8 +2,6 @@
 #define __CONTAGEM_H__
 
 #define TAM_MAX_LISTA 1000
-const int ENCONTRADO = 0;
-const int NAO_ENCONTRADO = -1;
 
 struct cidade{
     char nome[TAM_VAR];

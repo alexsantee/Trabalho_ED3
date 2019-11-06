@@ -5,6 +5,7 @@
 #include "constants.h"
 #include "helper.h"
 #include "funcionalidades.h"
+#include "contagem.h"
 
 /*
     Essa funcionalidade recebe o nome do arquivo CSV
@@ -16,8 +17,9 @@
 void funcionalidade1(char * nomecsv, char * nomebin)
 {
     int i = 0;
-    struct cabecalho * cab = (struct cabecalho *)calloc(1,sizeof(struct cabecalho));
+    struct cabecalho cab;
     struct registro reg;
+    struct lista list;
     char * str = (char*)calloc(TAMANHO_REGISTRO, sizeof(char));
     FILE * origem = fopen(nomecsv, "rt");
     if(origem == NULL)
@@ -33,21 +35,34 @@ void funcionalidade1(char * nomecsv, char * nomebin)
         return;
     }
 
-    preenche_cabecalho(cab, destino); // CABECALHO DEVE SER DETERMINADO AINDA
+    inicializa_lista(&list);
+    
+    strcpy((&cab)->dataUltimaCompactacao, "##########");
+    (&cab)->status = "0";
+    preenche_cabecalho(&cab, destino);
 
     fgets(str, TAMANHO_REGISTRO, origem);
     while(leregistro(origem, &reg))
     {   
         fseek(destino, (i * TAMANHO_REGISTRO) + TAMANHO_CABECALHO, SEEK_SET);
+        insere_cidade((&reg)->cidadeDestino, &list);
+        insere_cidade((&reg)->cidadeOrigem, &list);
         escreve_registro(destino, &reg);
         limpa_reg(&reg);
+        i++;
     }
 
-    fseek(destino,0,SEEK_SET);
-    fwrite("1", sizeof(char),1,destino);
+    if(grava_arquivo("Cities.bin", &list))
+        {
+            printf("Falha no carregamento do arquivo.");
+            return;
+        }
+
+    (&cab)->numeroArestas = i;
+    (&cab)->numeroVertices = (&list)->tamanho;
+    (&cab)->status = "1";
+    preenche_cabecalho((&cab),destino);
     
-    //FALTOU DAR FREE EM REG E CAB NO FINAL
-    //EH REALMENTE NECESSARIO USAR ALOCACAO DINAMICA?
     fclose(origem);
     fclose(destino);
 
