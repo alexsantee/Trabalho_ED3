@@ -105,9 +105,6 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
     }
 
     rrn = buscaporCampo(fp, nomecampo, buscado, &reg);
-    //AQUI -1 APARECE COMO UM NUMERO MAGICO! SERIA BOM DEFINIR UMA CONSTANTE
-    //COM NOME EXPLICATIVO (FIM_BUSCA?) E DEFINI-LA COMO -1 PARA MELHORAR A
-    //LEGIBILIDADE
     while(rrn != FIM_BUSCA)
     {
         if(rrn >= 0 && (reg.estadoOrigem[0] != INDICA_REMOVIDO))
