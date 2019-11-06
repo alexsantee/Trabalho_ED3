@@ -18,37 +18,39 @@ void funcionalidade1(char * nomecsv, char * nomebin)
     int i = 0;
     struct cabecalho * cab = (struct cabecalho *)calloc(1,sizeof(struct cabecalho));
     struct registro * reg = (struct registro *)calloc(1,sizeof(struct registro));
-    char * str = (char*)calloc(90, sizeof(char));
-    FILE * fp = fopen(nomecsv, "rt");
-    if(fp == NULL)
+    char * str = (char*)calloc(90, sizeof(char)); //DE ONDE VEIO ESSE 90? USAR CONSTANTES DO CONSTANTS.H
+    FILE * origem = fopen(nomecsv, "rt");
+    if(origem == NULL)
     {
         printf("Falha no carregamento do arquivo.");
         return;
     }
 
-    FILE * fp2 = fopen(nomebin, "wb");
-    if(fp2 == NULL)
+    FILE * destino = fopen(nomebin, "wb");
+    if(destino == NULL)
     {
         printf("Falha no carregamento do arquivo.");
         return;
     }
 
-    preenche_cabecalho(cab, fp2); // CABECALHO DEVE SER DETERMINADO AINDA
+    preenche_cabecalho(cab, destino); // CABECALHO DEVE SER DETERMINADO AINDA
 
-    fgets(str, 90, fp);
-    while(leregistro(fp, reg))
+    fgets(str, 90, origem); //90 APARECE AQUI TAMBEM
+    while(leregistro(origem, reg))
     {   
-        fseek(fp2, (i * TAMANHO_REGISTRO) + TAMANHO_CABECALHO, SEEK_SET);
-        escreve_registro(fp2, reg);
-        free(reg);
+        fseek(destino, (i * TAMANHO_REGISTRO) + TAMANHO_CABECALHO, SEEK_SET);
+        escreve_registro(destino, reg);
+        free(reg);  //USO DESNECESSARIO DO FREE
         reg = (struct registro *)calloc(1,sizeof(struct registro));
     }
 
-    fseek(fp2,0,SEEK_SET);
-    fwrite("1", sizeof(char),1,fp2);
-
-    fclose(fp);
-    fclose(fp2);
+    fseek(destino,0,SEEK_SET);
+    fwrite("1", sizeof(char),1,destino);
+    
+    //FALTOU DAR FREE EM REG E CAB NO FINAL
+    //EH REALMENTE NECESSARIO USAR ALOCACAO DINAMICA?
+    fclose(origem);
+    fclose(destino);
 
     binarioNaTela1(nomebin);
     return;
@@ -63,7 +65,6 @@ void funcionalidade1(char * nomecsv, char * nomebin)
 void funcionalidade2(char * nomebin)
 {
     struct registro * reg = (struct registro *)calloc(1,sizeof(struct registro));
-    int i = 0;
     
     FILE * fp = fopen(nomebin, "rb");
     if(fp == NULL)
@@ -72,15 +73,17 @@ void funcionalidade2(char * nomebin)
         return;
     }
 
-    while(leregbin(fp, reg))
+    int RRN;
+    for(RRN = 0; leregbin(fp, reg); RRN++)
     {
         if(reg->estadoOrigem[0] != INDICA_REMOVIDO)
-            printf("%d %s %s %d %s %s %s\n", i, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
-        i++;
-        free(reg);
+            //ESSE PRINTF FOI USADO VARIAS VEZES, NAO SERIA BOM FAZER UMA FUNCAO SEPARADA?
+            printf("%d %s %s %d %s %s %s\n", RRN, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
+        free(reg);  //USO DESNECESSARIO DO FREE
         reg = (struct registro *)calloc(1,sizeof(struct registro));
     }
 
+    //FALTOU FREE FINAL
     fclose(fp);
     return;
 }
@@ -106,6 +109,9 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
     }
 
     rrn = buscaporCampo(fp, nomecampo, buscado, reg);
+    //AQUI -1 APARECE COMO UM NUMERO MAGICO! SERIA BOM DEFINIR UMA CONSTANTE
+    //COM NOME EXPLICATIVO (FIM_BUSCA?) E DEFINI-LA COMO -1 PARA MELHORAR A
+    //LEGIBILIDADE
     while(rrn != -1)
     {
         if(rrn >= 0 && (reg->estadoOrigem[0] != INDICA_REMOVIDO))
@@ -113,14 +119,15 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
                 printf("%d %s %s %d %s %s %s\n", rrn, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
                 achou = 1;
         }
-        free(reg);
+        free(reg);  //FREE DESNECESSARIO
         reg = (struct registro *)calloc(1,sizeof(struct registro));
         rrn = buscaporCampo(fp, nomecampo, buscado, reg);
     }
 
     if(!achou)
         printf("Registro Inexistente.");
-
+    
+    //FALTOU FREE FINAL
     fclose(fp);
     return;
 }
@@ -128,7 +135,7 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
 /*
     Essa funcionalidade recebe o nome de um arquivo binario
     e um RRN de um registro que deseja ser buscado.
-    Ela busca o registro por todo o arquivo e o printa na tela
+    Ela busca o registro no arquivo e o printa na tela
     se for encontrado.
 */
 
@@ -147,6 +154,7 @@ void funcionalidade4(char * nomebin, int rrn)
     else
         printf("%d %s %s %d %s %s %s\n", rrn, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);  
 
+    //FALTOU FREE FINAL
     fclose(fp);
     return;     
 }
