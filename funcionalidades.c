@@ -226,3 +226,28 @@ void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIV
     fclose(fp);
     return;
 }
+
+void funcionalidade8(char * origem, char * destino)
+{
+    char Status;
+    FILE * fp1 = fopen(origem, "rb");
+    FILE * fp2 = fopen(destino, "wb");
+
+    if(fp1 == NULL || fp2 == NULL)
+    {
+        printf("Falha no processamento do arquivo.");
+        return;
+    }
+
+    fread(&Status, sizeof(char), 1, fp1);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.");
+        return;
+    }
+    fseek(fp1, STATUS, SEEK_SET);
+
+    compacta_arq(fp1, fp2);
+
+    binarioNaTela1(destino);
+}

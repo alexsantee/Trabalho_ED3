@@ -56,6 +56,12 @@ int main()
             funcionalidade5(nomeBIN);
         binarioNaTela1(nomeBIN);
         break;
+
+    case 8:
+        scanf("%s", nomeBIN);
+        scanf("%s", nomeCSV);
+        funcionalidade8(nomeBIN, nomeCSV);
+        break;
     }
     return 1;
 }

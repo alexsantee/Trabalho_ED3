@@ -386,3 +386,40 @@ void print_reg(int RRN, struct registro *reg)
 {
     printf("%d %s %s %d %s %s %s\n", RRN, reg->estadoOrigem, reg->estadoDestino, reg->distancia, reg->cidadeOrigem, reg->cidadeDestino, reg->tempoViagem);
 }
+
+void compacta_arq(FILE * origem, FILE * destino)
+{
+    char reg[TAMANHO_REGISTRO];
+    struct cabecalho cab;
+    
+    fwrite("0", sizeof(char), 1, origem);
+    strcpy((&cab)->dataUltimaCompactacao, DATA_INI);
+    (&cab)->status = '0';
+    fseek(origem, NUMERO_VERTICES, SEEK_SET);
+    fread(&(&cab)->numeroVertices, sizeof(int), 1, origem);
+    fread(&(&cab)->numeroArestas, sizeof(int), 1, origem);
+
+    preenche_cabecalho(&cab, destino);
+
+    fseek(origem, TAMANHO_CABECALHO, SEEK_SET);
+    while(fread(&reg, TAMANHO_REGISTRO, 1, origem) == TAMANHO_REGISTRO)
+    {
+        if(reg[0]=='*')
+        {
+            continue;
+        }
+        else
+        {
+            fwrite(&reg, TAMANHO_REGISTRO, 1, destino);
+        }
+    }
+
+    (&cab)->status = '1';
+    fseek(origem, STATUS, SEEK_SET);
+    fseek(destino, STATUS, SEEK_SET);
+    fwrite("1", sizeof(char), 1, origem);
+    strcpy((&cab)->dataUltimaCompactacao, "01/11/2019");
+    preenche_cabecalho(&cab, destino);
+    fclose(origem);
+    fclose(destino);
+}

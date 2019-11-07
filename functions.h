@@ -19,3 +19,5 @@ void preenche_cabecalho(struct cabecalho *cab, FILE *);
 void limpa_reg(struct registro *);
 
 void print_reg(int RRN, struct registro *);
+
+void compacta_arq(FILE *, FILE *);
