@@ -249,5 +249,7 @@ void funcionalidade8(char * origem, char * destino)
 
     compacta_arq(fp1, fp2);
 
+    remove(origem);
+
     binarioNaTela1(destino);
 }
