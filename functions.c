@@ -402,7 +402,7 @@ void compacta_arq(FILE * origem, FILE * destino)
     preenche_cabecalho(&cab, destino);
 
     fseek(origem, TAMANHO_CABECALHO, SEEK_SET);
-    while(fread(&reg, TAMANHO_REGISTRO, 1, origem) == TAMANHO_REGISTRO)
+    while(fread(&reg, TAMANHO_REGISTRO, 1, origem))
     {
         if(reg[0]=='*')
         {
