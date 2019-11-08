@@ -63,5 +63,5 @@ int main()
         funcionalidade8(nomeBIN, nomeCSV);
         break;
     }
-    return 1;
+    return 0;
 }
