@@ -168,3 +168,14 @@ void le_registros(FILE *fp, struct lista *lista){
         fread( &(lista->cidades[i].repeticoes), sizeof(int), 1, fp);
     }
 }
+
+void criaListaBin(struct lista * list, FILE * fp)
+{
+    struct registro reg;
+    fseek(fp, TAMANHO_CABECALHO, SEEK_SET);
+    while(leregbin(fp, &reg) != 0)
+    {
+        insere_cidade((&reg)->cidadeOrigem, list);
+        insere_cidade((&reg)->cidadeDestino, list);
+    }
+}

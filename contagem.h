@@ -14,6 +14,7 @@ struct lista{
 };
 
 void inicializa_lista(struct lista *lista);
+void criaListaBin(struct lista *lista, FILE* fp);
 //Retorna 0 se encontrou e NAO_ENCONTRADO caso contrario,
 //Retorna na variavel pos a posicao da cidade ou a melhor posicao para inserir
 int busca_cidade(char *nome, int *pos ,struct lista *lista);

@@ -275,7 +275,7 @@ void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIV
     return;
 }
 
-void funcionalidade6(char * arq, int n) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIVO BINARIO
+void funcionalidade6(char * arq, int n)
 {
     struct registro reg;
     struct cabecalho cab;
@@ -303,7 +303,12 @@ void funcionalidade6(char * arq, int n) // CRIAR LISTA DE CIDADES A PARTIR DO AR
 
     fseek(fp, STATUS, SEEK_SET);
     fwrite("0", sizeof(char), 1, fp);
-    fseek(fp, 0, SEEK_END);
+    fseek(fp, STATUS, SEEK_SET);
+
+    inicializa_lista(&list);
+    criaListaBin(&list, fp);
+
+    fseek(fp, STATUS, SEEK_END);
 
     for(; n > 0; n--)
     {
@@ -312,6 +317,12 @@ void funcionalidade6(char * arq, int n) // CRIAR LISTA DE CIDADES A PARTIR DO AR
         verifica_leitura(&reg);
 
         escreve_registro(fp, &reg);
+
+        if(strlen((&reg)->cidadeOrigem) != 0)
+            insere_cidade((&reg)->cidadeOrigem, &list);
+
+        if(strlen((&reg)->cidadeDestino) != 0)
+            insere_cidade((&reg)->cidadeDestino, &list);
 
         limpa_reg(&reg);
 
