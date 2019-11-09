@@ -94,7 +94,7 @@ void funcionalidade2(char * nomebin)
         printf("Falha no processamento do arquivo.\n");
         return;
     }
-    fseek(fp, STATUS, SEEK_SET);
+    fseek(fp, TAMANHO_CABECALHO, SEEK_SET);
 
     int RRN;
     for(RRN = 0; leregbin(fp, &reg); RRN++)
