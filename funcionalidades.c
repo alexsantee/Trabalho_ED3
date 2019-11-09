@@ -143,7 +143,7 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
         printf("Falha no processamento do arquivo.\n");
         return;
     }
-    fseek(fp, STATUS, SEEK_SET);
+    fseek(fp, TAMANHO_CABECALHO, SEEK_SET);
 
     rrn = buscaporCampo(fp, nomecampo, buscado, &reg);
     while(rrn != FIM_BUSCA)
