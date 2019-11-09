@@ -332,6 +332,67 @@ void funcionalidade6(char * arq, int n) // CRIAR LISTA DE CIDADES A PARTIR DO AR
     return;
 }
 
+void funcionalidade7(char * arq, int n)
+{
+    struct registro reg;
+    struct cabecalho cab;
+    struct lista list;
+    FILE * fp;
+    char Status;
+    int arestas;
+    int RRN;
+    char Field[15];
+    char newValue[TAM_VAR];
+
+    fp = fopen(arq, "rb+");
+    if(fp == NULL)
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+
+    fseek(fp, NUMERO_ARESTAS, SEEK_SET);
+    fread(&arestas, sizeof(int), 1, fp);
+
+    fseek(fp, STATUS, SEEK_SET);
+    fwrite("0", sizeof(char), 1, fp);
+
+    for(; n > 0; n--)
+    {
+        scanf("%d", &RRN);
+        scan_quote_string(Field);
+        scan_quote_string(newValue);
+        buscaRRN(fp, RRN, &reg);
+        fseek(fp, ((RRN*TAMANHO_REGISTRO)+TAMANHO_CABECALHO), SEEK_SET);
+        verifica_leitura_single(newValue);
+        modifica_reg(&reg, Field, newValue);
+        escreve_registro(fp, &reg);
+        limpa_reg(&reg);
+        zera_regt(Field);
+        zera_regt(newValue);
+    }
+
+    (&cab)->status = '1';
+    strcpy((&cab)->dataUltimaCompactacao, DATA_INI);
+    (&cab)->numeroArestas = arestas;
+    (&cab)->numeroVertices = (&list)->tamanho;
+
+    preenche_cabecalho(&cab, fp);
+
+    fclose(fp);
+
+    binarioNaTela1(arq);
+
+    return;
+}
+
 void funcionalidade8(char * origem, char * destino)
 {
     char Status;

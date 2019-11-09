@@ -25,3 +25,9 @@ void compacta_arq(FILE *, FILE *);
 void le_reg_do_teclado(struct registro *);
 
 void verifica_leitura(struct registro *);
+
+void modifica_reg(struct registro *, char*, char*);
+
+void verifica_leitura_single(char*);
+
+void zera_regt(char *);

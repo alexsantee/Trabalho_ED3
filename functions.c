@@ -94,16 +94,17 @@ int leregbin(FILE *fp, struct registro * reg)
 {
     char c = SEPARADOR_REGISTRO;
     int i = 0;
-    
+
     while(c == SEPARADOR_REGISTRO)
         if(fread(&c, sizeof(char), 1, fp) == 0)
             return 0;
-    
+
     reg->estadoOrigem[0] = c;
     fread(&(reg->estadoOrigem[1]), sizeof(char), 1, fp);
+    reg->estadoOrigem[2] = '\0';
     fread(reg->estadoDestino, sizeof(char), 2, fp);
     fread(&(reg->distancia), sizeof(int), 1, fp);
-    
+
     fread(&c, sizeof(char), 1, fp);
     while (c != SEPARADOR_CAMPO)
     {
@@ -111,7 +112,7 @@ int leregbin(FILE *fp, struct registro * reg)
         fread(&c, sizeof(char), 1, fp);
         i++;
     }
-
+    reg->cidadeOrigem[i] = '\0';
     i = 0;
     fread(&c, sizeof(char), 1, fp);
     while (c != SEPARADOR_CAMPO)
@@ -120,7 +121,7 @@ int leregbin(FILE *fp, struct registro * reg)
         fread(&c, sizeof(char), 1, fp);
         i++;
     }
-
+    reg->cidadeDestino[i]='\0';
     i = 0;
     fread(&c, sizeof(char), 1, fp);
     while(c != SEPARADOR_CAMPO)
@@ -129,7 +130,7 @@ int leregbin(FILE *fp, struct registro * reg)
         fread(&c, sizeof(char), 1, fp);
         i++;
     }
-
+    reg->tempoViagem[i] = '\0';
     return 1;
 }
 
@@ -343,7 +344,7 @@ int buscaporCampo(FILE *fp, char * nomecamp, char * buscado, struct registro *re
 
 int buscaRRN(FILE *fp, int RRN, struct registro *reg)
 {
-    fseek(fp, RRN*TAMANHO_REGISTRO, SEEK_SET);
+    fseek(fp, ((RRN*TAMANHO_REGISTRO)+TAMANHO_CABECALHO), SEEK_SET);
     if(!leregbin(fp, reg) || (reg->estadoOrigem[0] == INDICA_REMOVIDO))
     {
         printf("Registro inexistente.\n");
@@ -357,7 +358,7 @@ int buscaRRN(FILE *fp, int RRN, struct registro *reg)
 
 void preenche_cabecalho(struct cabecalho * cab, FILE * arq)
 {
-    fseek(arq,0,SEEK_SET);
+    fseek(arq,STATUS,SEEK_SET);
     fwrite(&(cab->status),sizeof(char),1,arq);
     fwrite(&(cab->numeroVertices), sizeof(int),1,arq);
     fwrite(&(cab->numeroArestas),sizeof(int),1,arq);
@@ -449,5 +450,65 @@ void verifica_leitura(struct registro * reg)
     if(strcmp((reg)->tempoViagem, "NULO") == 0)
     {
         strcpy((reg)->tempoViagem, "");
+    }
+}
+
+void modifica_reg(struct registro * reg, char * field, char * novoValor)
+{
+    if(!strcmp("estadoOrigem", field))
+    {
+        reg->estadoOrigem[0] = novoValor[0];
+        reg->estadoOrigem[1] = novoValor[1];
+        return;
+    }
+
+    if(!strcmp("estadoDestino", field))
+    {
+        reg->estadoDestino[0] = novoValor[0];
+        reg->estadoDestino[1] = novoValor[1];
+        return;
+    }
+
+    if(!strcmp("distancia", field))
+    {
+        reg->distancia = atoi(novoValor);
+        return;
+    }
+
+    if(!strcmp("cidadeOrigem", field))
+    {
+        zera_regt(reg->cidadeOrigem);
+        strcpy((reg)->cidadeOrigem, novoValor);
+        return;
+    }
+
+    if(!strcmp("cidadeDestino", field))
+    {
+        zera_regt(reg->cidadeDestino);
+        strcpy((reg)->cidadeDestino, novoValor);
+        return;
+    }
+
+    if(!strcmp("tempoViagem", field))
+    {
+        zera_regt(reg->tempoViagem);
+        strcpy((reg)->tempoViagem, novoValor);
+        return;
+    }
+}
+
+void verifica_leitura_single(char * str)
+{
+    if(strcmp(str, "NULO") == 0)
+    {
+        strcpy(str, "");
+    }
+}
+
+void zera_regt(char * str)
+{
+    for(int i = 0; i < TAM_VAR; i++)
+    {
+        str[i] = '\0';
     }
 }

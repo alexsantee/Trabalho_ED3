@@ -63,6 +63,12 @@ int main()
         funcionalidade6(nomeBIN, num);
         break;
 
+    case 7:
+        scanf("%s", nomeBIN);
+        scanf("%d", &num);
+        funcionalidade7(nomeBIN, num);
+        break;
+
     case 8:
         scanf("%s", nomeBIN);
         scanf("%s", nomeCSV);
