@@ -188,7 +188,7 @@ void funcionalidade4(char * nomebin, int rrn)
         printf("Falha no processamento do arquivo.\n");
         return;
     }
-    fseek(fp, STATUS, SEEK_SET);
+    fseek(fp, TAMANHO_CABECALHO, SEEK_SET);
 
     if(!buscaRRN(fp, rrn, &reg))
         {   
