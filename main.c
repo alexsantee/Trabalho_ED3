@@ -57,6 +57,12 @@ int main()
         binarioNaTela1(nomeBIN);
         break;
 
+    case 6:
+        scanf("%s", nomeBIN);
+        scanf("%d", &num);
+        funcionalidade6(nomeBIN, num);
+        break;
+
     case 8:
         scanf("%s", nomeBIN);
         scanf("%s", nomeCSV);

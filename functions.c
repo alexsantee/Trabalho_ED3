@@ -423,3 +423,31 @@ void compacta_arq(FILE * origem, FILE * destino)
     fclose(origem);
     fclose(destino);
 }
+
+void le_reg_do_teclado(struct registro * reg)
+{
+    scanf(" %[^ ]%*c", reg->estadoOrigem);
+    scanf("%[^ ]%*c", reg->estadoDestino);
+    scanf("%d%*c", &reg->distancia);
+    scan_quote_string(reg->cidadeOrigem);
+    scan_quote_string(reg->cidadeDestino);
+    scan_quote_string(reg->tempoViagem);
+}
+
+void verifica_leitura(struct registro * reg)
+{
+    if(strcmp((reg)->cidadeOrigem, "NULO") == 0)
+    {
+        strcpy((reg)->cidadeOrigem, "");
+    }
+
+    if(strcmp((reg)->cidadeDestino, "NULO") == 0)
+    {
+        strcpy((reg)->cidadeDestino, "");
+    }
+
+    if(strcmp((reg)->tempoViagem, "NULO") == 0)
+    {
+        strcpy((reg)->tempoViagem, "");
+    }
+}

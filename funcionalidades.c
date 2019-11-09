@@ -275,6 +275,63 @@ void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIV
     return;
 }
 
+void funcionalidade6(char * arq, int n) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIVO BINARIO
+{
+    struct registro reg;
+    struct cabecalho cab;
+    struct lista list;
+    FILE * fp;
+    char Status;
+    int arestas;
+
+    fp = fopen(arq, "rb+");
+    if(fp == NULL)
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+
+    fseek(fp, NUMERO_ARESTAS, SEEK_SET);
+    fread(&arestas, sizeof(int), 1, fp);
+
+    fseek(fp, STATUS, SEEK_SET);
+    fwrite("0", sizeof(char), 1, fp);
+    fseek(fp, 0, SEEK_END);
+
+    for(; n > 0; n--)
+    {
+        le_reg_do_teclado(&reg);
+
+        verifica_leitura(&reg);
+
+        escreve_registro(fp, &reg);
+
+        limpa_reg(&reg);
+
+        arestas++;
+    }
+
+    (&cab)->status = '1';
+    strcpy((&cab)->dataUltimaCompactacao, DATA_INI);
+    (&cab)->numeroArestas = arestas;
+    (&cab)->numeroVertices = (&list)->tamanho;
+
+    preenche_cabecalho(&cab, fp);
+
+    fclose(fp);
+
+    binarioNaTela1(arq);
+
+    return;
+}
+
 void funcionalidade8(char * origem, char * destino)
 {
     char Status;

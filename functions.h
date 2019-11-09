@@ -21,3 +21,7 @@ void limpa_reg(struct registro *);
 void print_reg(int RRN, struct registro *);
 
 void compacta_arq(FILE *, FILE *);
+
+void le_reg_do_teclado(struct registro *);
+
+void verifica_leitura(struct registro *);
