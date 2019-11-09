@@ -24,14 +24,14 @@ void funcionalidade1(char * nomecsv, char * nomebin)
     FILE * origem = fopen(nomecsv, "rt");
     if(origem == NULL)
     {
-        printf("Falha no carregamento do arquivo.");
+        printf("Falha no carregamento do arquivo.\n");
         return;
     }
 
     FILE * destino = fopen(nomebin, "wb");
     if(destino == NULL)
     {
-        printf("Falha no carregamento do arquivo.");
+        printf("Falha no carregamento do arquivo.\n");
         return;
     }
 
@@ -54,7 +54,7 @@ void funcionalidade1(char * nomecsv, char * nomebin)
 
     if(grava_arquivo("Cities.bin", &list))
         {
-            printf("Falha no carregamento do arquivo.");
+            printf("Falha no carregamento do arquivo.\n");
             return;
         }
 
@@ -78,21 +78,38 @@ void funcionalidade1(char * nomecsv, char * nomebin)
 
 void funcionalidade2(char * nomebin)
 {
+    char Status;
     struct registro reg;
-    
+    int i = 0;
     FILE * fp = fopen(nomebin, "rb");
     if(fp == NULL)
     {
-        printf("Falha no processamento do arquivo.");
+        printf("Falha no processamento do arquivo.\n");
         return;
     }
+
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+    fseek(fp, STATUS, SEEK_SET);
 
     int RRN;
     for(RRN = 0; leregbin(fp, &reg); RRN++)
     {
         if(reg.estadoOrigem[0] != INDICA_REMOVIDO)
-            print_reg(RRN, &reg);
+            {
+                print_reg(RRN, &reg);
+                i++;
+            }
         limpa_reg(&reg);
+    }
+
+    if(i == 0)
+    {
+        printf("Registro inexistente.\n");
     }
 
     fclose(fp);
@@ -108,6 +125,7 @@ void funcionalidade2(char * nomebin)
 
 void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
 {
+    char Status;
     int rrn = 0;
     int achou = 0;
     struct registro reg;
@@ -115,9 +133,17 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
     FILE * fp = fopen(nomebin, "rb");
     if(fp == NULL)
     {
-        printf("Falha no processamento do arquivo.");
+        printf("Falha no processamento do arquivo.\n");
         return;
     }
+
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+    fseek(fp, STATUS, SEEK_SET);
 
     rrn = buscaporCampo(fp, nomecampo, buscado, &reg);
     while(rrn != FIM_BUSCA)
@@ -132,7 +158,7 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
     }
 
     if(!achou)
-        printf("Registro Inexistente.");
+        printf("Registro inexistente.\n");
     
     fclose(fp);
     return;
@@ -147,16 +173,28 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado)
 
 void funcionalidade4(char * nomebin, int rrn)
 {
+    char Status;
     struct registro reg;
     FILE * fp = fopen(nomebin, "rb");
     if(fp == NULL)
     {
-        printf("Falha no processamento do arquivo.");
+        printf("Falha no processamento do arquivo.\n");
         return;
     }
 
-    if(!buscaRRN(fp, rrn, &reg))
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.\n");
         return;
+    }
+    fseek(fp, STATUS, SEEK_SET);
+
+    if(!buscaRRN(fp, rrn, &reg))
+        {   
+            printf("Registro inexistente.\n");
+            return;
+        }
     else
         print_reg(rrn, &reg);  
 
@@ -174,6 +212,7 @@ void funcionalidade4(char * nomebin, int rrn)
 
 void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIVO BINARIO
 {
+    char Status;
     char nomecampo[TAM_VAR];
     char valor[TAM_VAR];
     struct registro reg;
@@ -185,9 +224,18 @@ void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIV
     FILE * fp = fopen(nomebin, "rb+");
     if(fp == NULL)
     {
-        printf("Falha no processamento do arquivo.");
+        printf("Falha no processamento do arquivo.\n");
         return;
     }
+    
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+    fseek(fp, STATUS, SEEK_SET);
+    
     fwrite("0", sizeof(char), 1, fp);
 
     inicializa_lista(&list);
@@ -235,14 +283,14 @@ void funcionalidade8(char * origem, char * destino)
 
     if(fp1 == NULL || fp2 == NULL)
     {
-        printf("Falha no processamento do arquivo.");
+        printf("Falha no carregamento do arquivo.\n");
         return;
     }
 
     fread(&Status, sizeof(char), 1, fp1);
     if(Status != '1')
     {
-        printf("Falha no processamento do arquivo.");
+        printf("Falha no carregamento do arquivo.\n");
         return;
     }
     fseek(fp1, STATUS, SEEK_SET);

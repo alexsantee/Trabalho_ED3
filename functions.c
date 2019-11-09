@@ -346,7 +346,7 @@ int buscaRRN(FILE *fp, int RRN, struct registro *reg)
     fseek(fp, RRN*TAMANHO_REGISTRO, SEEK_SET);
     if(!leregbin(fp, reg) || (reg->estadoOrigem[0] == INDICA_REMOVIDO))
     {
-        printf("Registro inexistente.");
+        printf("Registro inexistente.\n");
         return 0;
     }
     else
