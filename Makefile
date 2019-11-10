@@ -1,5 +1,7 @@
-all:
+all:	programa.out
+
+programa.out:
 	gcc *.c -o programa.out
 
-run:
+run:	programa.out
 	./programa.out
