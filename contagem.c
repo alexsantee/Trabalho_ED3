@@ -3,6 +3,7 @@
 #include <string.h>
 #include "constants.h"
 #include "contagem.h"
+#include "functions.h"
 
 void inicializa_lista(struct lista *lista){
     lista->tamanho = 0;
