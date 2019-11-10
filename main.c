@@ -66,7 +66,8 @@ int main()
     case 7:
         scanf("%s", nomeBIN);
         scanf("%d", &num);
-        funcionalidade7(nomeBIN, num);
+        for(int i = 0; i < num; i++)
+            funcionalidade7(nomeBIN);
         break;
 
     case 8:

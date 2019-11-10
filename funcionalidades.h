@@ -13,6 +13,6 @@ void funcionalidade5(char * nomebin);
 
 void funcionalidade6(char * nomebin, int n);
 
-void funcionalidade7(char * nomebin, int n);
+void funcionalidade7(char * nomebin);
 
 void funcionalidade8(char *, char *);

@@ -343,6 +343,65 @@ void funcionalidade6(char * arq, int n)
     return;
 }
 
+void funcionalidade7(char *nomebin)
+{
+    //Abre o arquivo
+    FILE * fp = fopen(nomebin, "rb+");
+    if(fp == NULL)
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+    //Verifica integridade do arquivo
+    char Status;
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha no processamento do arquivo.\n");
+        return;
+    }
+
+    //Registra status do arquivo como erro
+    fseek(fp, STATUS, SEEK_SET);
+    fwrite("0", sizeof(char), 1, fp);
+
+    //recebe entradas
+    int RRN;
+    char nomecampo[TAM_VAR];
+    char valor[TAM_VAR];
+    //le valor de RRN da entrada
+    scanf(" %d", &RRN);
+    //le nome e valor do campo a ser alterado
+    scanf(" %s", nomecampo);
+    if(strcmp(nomecampo, "distancia") == 0)
+        scanf(" %s", valor);
+    else
+        scan_quote_string(valor);
+
+    //enconta variavel e guarda valor original em reg
+    struct registro reg;
+    if(!buscaRRN(fp, RRN, &reg))
+    {   
+        printf("Registro inexistente.\n");
+        fclose(fp);
+        return;
+    }
+    //Substitui valor novo 
+    modifica_reg(&reg, nomecampo, valor);
+    //Reinsere no arquivo
+    fseek(fp, ((RRN*TAMANHO_REGISTRO)+TAMANHO_CABECALHO), SEEK_SET);
+    escreve_registro(fp, &reg);//ONDE ESTA O PONTEIRO DE ARQUIVO???
+    
+    //Registra status do arquivo como OK
+    fseek(fp, STATUS, SEEK_SET);
+    fwrite("1", sizeof(char), 1, fp);
+
+    fclose(fp);
+    return;
+}
+
+
+/*
 void funcionalidade7(char * arq, int n)
 {
     struct registro reg;
@@ -403,6 +462,7 @@ void funcionalidade7(char * arq, int n)
 
     return;
 }
+*/
 
 void funcionalidade8(char * origem, char * destino)
 {
