@@ -103,6 +103,7 @@ int leregbin(FILE *fp, struct registro * reg)
     fread(&(reg->estadoOrigem[1]), sizeof(char), 1, fp);
     reg->estadoOrigem[2] = '\0';
     fread(reg->estadoDestino, sizeof(char), 2, fp);
+    reg->estadoDestino[2] = '\0';
     fread(&(reg->distancia), sizeof(int), 1, fp);
 
     fread(&c, sizeof(char), 1, fp);
