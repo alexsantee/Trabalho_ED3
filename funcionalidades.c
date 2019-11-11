@@ -254,9 +254,9 @@ int funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIVO
     {
         if(RRN >= 0)
         {
-            fseek(fp, RRN*TAMANHO_REGISTRO, SEEK_SET);
+            fseek(fp, ((RRN*TAMANHO_REGISTRO) + TAMANHO_CABECALHO), SEEK_SET);
             fwrite(&INDICA_REMOVIDO, sizeof(char), 1, fp);
-            fseek(fp, (RRN+1)*TAMANHO_REGISTRO, SEEK_SET);
+            fseek(fp, (((RRN+1)*TAMANHO_REGISTRO) + TAMANHO_CABECALHO), SEEK_SET);
             aresta--;
             remove_cidade((&reg)->cidadeDestino, &list);
             remove_cidade((&reg)->cidadeOrigem, &list);
