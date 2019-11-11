@@ -192,7 +192,6 @@ void funcionalidade4(char * nomebin, int rrn)
 
     if(!buscaRRN(fp, rrn, &reg))
         {   
-            printf("Registro inexistente.\n");
             return;
         }
     else
