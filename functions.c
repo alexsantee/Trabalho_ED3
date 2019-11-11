@@ -149,7 +149,7 @@ int leCampoVar(FILE * fp, char *str)
     if(fread(&c, sizeof(char), 1, fp) == 0)
         return 0;
     
-    while(c != SEPARADOR_CAMPO)
+    while(c != SEPARADOR_CAMPO && !feof(fp))
     {
         str[i] = c;
         i++;
