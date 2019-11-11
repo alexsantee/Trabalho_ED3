@@ -192,6 +192,7 @@ void funcionalidade4(char * nomebin, int rrn)
 
     if(!buscaRRN(fp, rrn, &reg))
         {   
+			fclose(fp);
             return;
         }
     else
@@ -358,6 +359,7 @@ void funcionalidade7(char *nomebin)
     if(Status != '1')
     {
         printf("Falha no processamento do arquivo.\n");
+        fclose(fp);
         return;
     }
 
@@ -382,6 +384,8 @@ void funcionalidade7(char *nomebin)
     struct registro reg;
     if(!buscaRRN(fp, RRN, &reg))
     {   
+	    fseek(fp, STATUS, SEEK_SET);
+    	fwrite("1", sizeof(char), 1, fp);
         fclose(fp);
         return;
     }
