@@ -353,6 +353,7 @@ void funcionalidade7(char *nomebin)
     }
     //Verifica integridade do arquivo
     char Status;
+    fseek(fp, STATUS, SEEK_SET);
     fread(&Status, sizeof(char), 1, fp);
     if(Status != '1')
     {
@@ -381,7 +382,6 @@ void funcionalidade7(char *nomebin)
     struct registro reg;
     if(!buscaRRN(fp, RRN, &reg))
     {   
-        printf("Registro inexistente.\n");
         fclose(fp);
         return;
     }
@@ -389,7 +389,7 @@ void funcionalidade7(char *nomebin)
     modifica_reg(&reg, nomecampo, valor);
     //Reinsere no arquivo
     fseek(fp, ((RRN*TAMANHO_REGISTRO)+TAMANHO_CABECALHO), SEEK_SET);
-    escreve_registro(fp, &reg);//ONDE ESTA O PONTEIRO DE ARQUIVO???
+    escreve_registro(fp, &reg);
     
     //Registra status do arquivo como OK
     fseek(fp, STATUS, SEEK_SET);
