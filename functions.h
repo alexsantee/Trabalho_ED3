@@ -6,6 +6,8 @@ int leregistro(FILE *, struct registro *);
 
 void escreve_registro(FILE *, struct registro *);
 
+void escreve_registro_sem_lixo(FILE *, struct registro *);
+
 int leregbin(FILE *, struct registro *);
 
 int leCampoVar(FILE *, char * string);

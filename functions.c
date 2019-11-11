@@ -84,6 +84,50 @@ void escreve_registro(FILE * fp, struct registro * reg)
     }
 }
 
+void escreve_registro_sem_lixo(FILE * fp, struct registro * reg)
+{
+    int i;
+    int j = 0;
+
+    for(i = 0; i < (sizeof(reg->estadoOrigem) - 1); i++)
+        fwrite(&(reg->estadoOrigem[i]), sizeof(char), 1, fp);
+
+    for(i = 0; i < (sizeof(reg->estadoDestino) - 1); i++)
+        fwrite(&(reg->estadoDestino[i]), sizeof(char), 1, fp);
+
+    fwrite(&(reg->distancia), sizeof(int), 1, fp);
+
+    while (reg->cidadeOrigem[j] != '\0')
+    {
+        fwrite(&(reg->cidadeOrigem[j]), sizeof(char), 1, fp);
+        j++;
+    }
+
+    fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
+
+    j=0;
+
+    while (reg->cidadeDestino[j] != '\0')
+    {
+        fwrite(&(reg->cidadeDestino[j]), sizeof(char), 1, fp);
+        j++;
+    }
+
+    fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
+
+    j=0;
+
+    while (reg->tempoViagem[j] != '\0')
+    {
+        fwrite(&(reg->tempoViagem[j]), sizeof(char), 1, fp);
+        j++;
+    }
+
+    fwrite(&(SEPARADOR_CAMPO), sizeof(char), 1, fp);
+    fwrite(&(SEPARADOR_REGISTRO), sizeof(char), 1, fp);
+
+}
+
 /*
     Função que lê um registro do arquivo binario passado atraves
     do ponteiro FILE e o salva na struct registro passada como

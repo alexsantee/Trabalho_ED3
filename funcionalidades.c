@@ -389,7 +389,7 @@ void funcionalidade7(char *nomebin)
     modifica_reg(&reg, nomecampo, valor);
     //Reinsere no arquivo
     fseek(fp, ((RRN*TAMANHO_REGISTRO)+TAMANHO_CABECALHO), SEEK_SET);
-    escreve_registro(fp, &reg);
+    escreve_registro_sem_lixo(fp, &reg);
     
     //Registra status do arquivo como OK
     fseek(fp, STATUS, SEEK_SET);
