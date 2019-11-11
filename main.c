@@ -8,6 +8,7 @@
 
 int main()
 {
+    int flag = 0;
     int op;
     int num;
     char nomeCSV[77];
@@ -53,8 +54,9 @@ int main()
         scanf("%s", nomeBIN);
         scanf("%d", &num);
         for(int i = 0; i < num; i++)
-            funcionalidade5(nomeBIN);
-        binarioNaTela1(nomeBIN);
+            flag = funcionalidade5(nomeBIN);
+        if(flag)
+            binarioNaTela1(nomeBIN);
         break;
 
     case 6:

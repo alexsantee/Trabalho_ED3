@@ -209,7 +209,7 @@ void funcionalidade4(char * nomebin, int rrn)
     logicamente todos esses registros.
 */
 
-void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIVO BINARIO
+int funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIVO BINARIO
 {
     char Status;
     char nomecampo[TAM_VAR];
@@ -224,14 +224,14 @@ void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIV
     if(fp == NULL)
     {
         printf("Falha no processamento do arquivo.\n");
-        return;
+        return 0;
     }
     
     fread(&Status, sizeof(char), 1, fp);
     if(Status != '1')
     {
         printf("Falha no processamento do arquivo.\n");
-        return;
+        return 0;
     }
     fseek(fp, STATUS, SEEK_SET);
     
@@ -271,7 +271,7 @@ void funcionalidade5(char *nomebin) // CRIAR LISTA DE CIDADES A PARTIR DO ARQUIV
     preenche_cabecalho(&cab, fp);
 
     fclose(fp);
-    return;
+    return 1;
 }
 
 void funcionalidade6(char * arq, int n)

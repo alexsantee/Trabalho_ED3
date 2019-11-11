@@ -9,7 +9,7 @@ void funcionalidade3(char * nomebin, char * nomecampo, char * buscado);
 
 void funcionalidade4(char * nomebin, int RRN);
 
-void funcionalidade5(char * nomebin);
+int funcionalidade5(char * nomebin);
 
 void funcionalidade6(char * nomebin, int n);
 
