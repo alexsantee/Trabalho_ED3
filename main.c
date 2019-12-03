@@ -77,6 +77,10 @@ int main()
         scanf("%s", nomeCSV);
         funcionalidade8(nomeBIN, nomeCSV);
         break;
+
+    case 9:
+       scanf("%s", nomeBIN);
+       funcionalidade9(nomeBIN); 
     }
     return 0;
 }

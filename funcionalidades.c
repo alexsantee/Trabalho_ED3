@@ -493,3 +493,44 @@ void funcionalidade8(char * origem, char * destino)
 
     binarioNaTela1(destino);
 }
+
+void funcionalidade9(char * nomebin)
+{
+    char Status;
+    struct registro reg;
+    int i = 0;
+    FILE * fp = fopen(nomebin, "rb");
+    if(fp == NULL)
+    {
+        printf("Falha na execução da funcionalidade.\n");
+        return;
+    }
+
+    fread(&Status, sizeof(char), 1, fp);
+    if(Status != '1')
+    {
+        printf("Falha na execução da funcionalidade.\n");
+        return;
+    }
+    fseek(fp, TAMANHO_CABECALHO, SEEK_SET);
+
+    int RRN;
+    for(RRN = 0; leregbin(fp, &reg); RRN++)
+    {
+        if(reg.estadoOrigem[0] != INDICA_REMOVIDO)
+        {
+            //ADICIONAR REGISTRO NO GRAFO
+            print_reg(RRN, &reg);
+            i++;
+        }
+        limpa_reg(&reg);
+    }
+
+    if(i == 0)
+    {
+        printf("Registro inexistente.\n");
+    }
+
+    fclose(fp);
+    return;
+}
