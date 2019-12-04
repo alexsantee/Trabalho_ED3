@@ -557,3 +557,50 @@ void zera_regt(char * str)
         str[i] = '\0';
     }
 }
+
+void inserereggrafo(struct registro reg, struct grafo * grafo, int tam)
+{
+    for(int i = 0; i < tam; i++)
+    {
+        if(grafo[i].reg == NULL)
+        {
+            grafo[i].reg = &reg;
+            return;
+        }
+
+        if(strcmp(grafo[i].reg->cidadeOrigem, reg.cidadeOrigem) == 0)
+        {
+            struct grafo * aux = &grafo[i];
+            while(aux->prox != NULL)
+                aux = aux->prox;
+            aux->prox = calloc(1, sizeof(struct grafo));
+            aux->prox->reg = &reg;
+            return;
+        }
+    }
+}
+
+void print_grafo(struct grafo *grafo, int tam)
+{
+    struct grafo * aux;
+    struct registro *reg;
+    for(int i = 0; i < tam; i++)
+    {
+        aux = &grafo[i];
+        reg = aux->reg;
+        printf("%s %s %s %s %d %s", reg->cidadeOrigem, reg->estadoOrigem, reg->cidadeDestino, reg->estadoDestino, reg->distancia, reg->tempoViagem);
+        while(aux->prox != NULL)
+        {
+            aux = aux->prox;
+            reg = aux->reg;
+            printf("%s %s %d %s", reg->cidadeDestino, reg->estadoDestino, reg->distancia, reg->tempoViagem);
+        }
+        if(aux != &grafo[i])
+        {
+            reg = aux->reg;
+            printf("%s %s %d %s", reg->cidadeDestino, reg->estadoDestino, reg->distancia, reg->tempoViagem);
+        }
+
+        printf("\n");
+    }
+}

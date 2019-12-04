@@ -33,3 +33,7 @@ void modifica_reg(struct registro *, char*, char*);
 void verifica_leitura_single(char*);
 
 void zera_regt(char *);
+
+void inserereggrafo(struct registro reg, struct grafo * grafo, int tam);
+
+void print_grafo(struct grafo *grafo, int tam);

@@ -496,8 +496,8 @@ void funcionalidade8(char * origem, char * destino)
 
 void funcionalidade9(char * nomebin)
 {
-    char Status;
     struct registro reg;
+    struct cabecalho cab;
     int i = 0;
     FILE * fp = fopen(nomebin, "rb");
     if(fp == NULL)
@@ -506,31 +506,30 @@ void funcionalidade9(char * nomebin)
         return;
     }
 
-    fread(&Status, sizeof(char), 1, fp);
-    if(Status != '1')
+    fread(&cab.status, sizeof(char), 1, fp);
+    if(cab.status != '1')
     {
         printf("Falha na execução da funcionalidade.\n");
         return;
     }
-    fseek(fp, TAMANHO_CABECALHO, SEEK_SET);
+    
+    fread(&cab.numeroVertices, sizeof(int), 1, fp);
+    fread(&cab.numeroArestas, sizeof(int), 1, fp);
+    fread(cab.dataUltimaCompactacao, sizeof(char), 10, fp);
+
+    struct grafo * grafo = calloc(cab.numeroVertices, sizeof(struct grafo));
 
     int RRN;
     for(RRN = 0; leregbin(fp, &reg); RRN++)
     {
         if(reg.estadoOrigem[0] != INDICA_REMOVIDO)
         {
-            //ADICIONAR REGISTRO NO GRAFO
-            print_reg(RRN, &reg);
-            i++;
+            inserereggrafo(reg, grafo, cab.numeroVertices);
         }
         limpa_reg(&reg);
     }
 
-    if(i == 0)
-    {
-        printf("Registro inexistente.\n");
-    }
-
     fclose(fp);
+    print_grafo(grafo, cab.numeroVertices);
     return;
 }

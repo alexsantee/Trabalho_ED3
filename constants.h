@@ -43,6 +43,12 @@ enum campo {
     TEMPO_VIAJEM
 };
 
+//GRAFOS
+struct grafo{
+    struct registro *reg;
+    struct grafo *prox;
+};
+
 //CABECALHO
 
 //Struct para facilitar manuseio do cabecalho
